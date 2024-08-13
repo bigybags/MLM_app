@@ -1,0 +1,37 @@
+/* Full-page layout and styling */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 250px; /* Adjust width as needed */
+  background-color: #f8f9fa; /* Adjust background color as needed */
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.top-navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  background-color: #fff; /* Adjust background color as needed */
+  border-bottom: 1px solid #dee2e6; /* Adjust border as needed */
+}
+
+.container-fluid{
+  background-color: #f1f2f6;
+  height: 100vh;
+  overflow-y: scroll;
+}

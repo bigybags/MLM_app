@@ -56,6 +56,8 @@ const Orders = () => {
                         <Alert variant="danger">
                             {error}
                         </Alert>
+                    ) : orders.length === 0 ? (
+                        <p>No orders have been placed yet.</p>
                     ) : (
                         <Table striped bordered hover responsive>
                             <thead>

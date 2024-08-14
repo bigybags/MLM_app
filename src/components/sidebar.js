@@ -57,7 +57,7 @@ const Sidebar = () => {
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/dashboard/orders" className={`flex items-center hover:bg-gray-200 rounded-lg ${isActive('/dashboard/orders')}`} >
-              <CDBSidebarMenuItem icon="user">Orders</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="list">Orders</CDBSidebarMenuItem>
             </NavLink>
           </CDBSidebarMenu>
         </CDBSidebarContent>

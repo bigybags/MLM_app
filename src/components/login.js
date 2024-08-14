@@ -20,6 +20,7 @@ function LoginForm() {
 
     if (!email || !password) {
       setError('Please fill in both fields.');
+      setisLoading(false);
       return;
     }
 

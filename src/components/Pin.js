@@ -155,7 +155,8 @@ const PinConfirmation = () => {
             </ToastContainer>
             <Row className="justify-content-center">
                 <Col md={6} xs={10}>
-                    <h3 className="text-center mb-4 font-semibold text-2xl">Pin Confirmation</h3>
+                    <h3 className="text-center mb-4 font-semibold text-2xl">Email Confirmation</h3>
+                    <p className="text-center mb-4 font-medium text-base">An OTP has been sent to your email. Please check your inbox and enter the code to proceed.</p>
                     <Form onSubmit={handleSubmit}>
                         <Row className="justify-content-center">
                             {pin.map((value, index) => (

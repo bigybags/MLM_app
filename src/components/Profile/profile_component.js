@@ -1,14 +1,14 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'js-cookie';
-import { Col, Row, Spinner } from 'react-bootstrap';
-
+import { Col, Row, Spinner, Button } from 'react-bootstrap';
+import ShareCodeModal from './share_code_modal';
 
 const ProfileComponent = () => {
   const [ProfileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false); // State for handling modal visibility
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -33,25 +33,8 @@ const ProfileComponent = () => {
       }
     };
 
-
     fetchProfileData();
   }, []);
-
-  const profileData = {
-    name: "Sierra Chapmann",
-    id: "INF00123",
-    email: "INF00123user@gmail.com",
-    sponsor: "BINARYADDON",
-    placement: "BINARYADDON",
-    position: "R",
-    membership: "Membership Pack3",
-    expiry: "28 May 2025 03:30:00",
-    personalPV: 150,
-    groupPV: 3650,
-    leftCarry: 50,
-    rightCarry: 1900,
-    ranking: "Gold"
-  };
 
   if (loading) {
     return <p><Spinner size='sm'></Spinner></p>;
@@ -61,11 +44,12 @@ const ProfileComponent = () => {
     return <p>Error: {error}</p>;
   }
 
-  // Make sure ProfileData is not null before rendering the component
   if (!ProfileData) {
     return null;
   }
 
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   return (
     <div className="flex justify-center items-center mt-[5%] bg-gray-100">
@@ -76,8 +60,8 @@ const ProfileComponent = () => {
             alt="Profile"
             className="rounded-full w-24 h-24 mb-4"
           />
-          <h2 className="text-2xl font-semibold">{ProfileData.user.first_name} {ProfileData.user.last_name}</h2>
-          <p className="text-gray-500">{ProfileData.user_points.status}</p>
+          <h2 className="text-center text-2xl font-semibold mb-2">{ProfileData.user.first_name} {ProfileData.user.last_name}</h2>
+          <p className="text-center text-gray-500 mb-2">{ProfileData.user_points.status}</p>
           <div className="flex space-x-2 mt-2">
             <button className="p-1 bg-blue-500 text-white rounded-full"><i className="fas fa-edit"></i></button>
             <button className="p-1 bg-green-500 text-white rounded-full"><i className="fas fa-check"></i></button>
@@ -92,7 +76,7 @@ const ProfileComponent = () => {
               </div>
             </Col>
             <Col>
-              <div >
+              <div>
                 <p className="text-gray-600">Phone No.</p>
                 <p className="font-semibold">{ProfileData.user.phone_no}</p>
               </div>
@@ -127,15 +111,11 @@ const ProfileComponent = () => {
             </Col>
           </Row>
           <Row>
-            {/* <Col>
-              <div className="flex space-x-4 mb-4">
-                <button className="px-4 py-2 bg-purple-500 text-white rounded-lg">Edit</button>
-                <button className="px-4 py-2 bg-purple-500 text-white rounded-lg">Save</button>
-              </div>
-            </Col> */}
             <Col>
               <div className="flex space-x-4 mb-4">
-                <button className="px-4 py-2 bg-green-400 text-white rounded-lg">Share Code</button>
+                <Button variant="success" onClick={handleOpenModal}>
+                  Share Code
+                </Button>
               </div>
             </Col>
           </Row>
@@ -152,13 +132,16 @@ const ProfileComponent = () => {
               <p className="text-green-500 font-semibold">Referral Points</p>
               <p className="text-xl font-semibold">{ProfileData.user_points.referral_points}</p>
             </div>
-            {/* <div className="text-center">
-              <p className="text-blue-500 font-semibold">Right Carry</p>
-              <p className="text-xl font-semibold">{profileData.rightCarry}</p>
-            </div> */}
           </div>
         </div>
       </div>
+
+      {/* Share Code Modal */}
+      <ShareCodeModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        userReferralCode={ProfileData.user.user_referral_code}
+      />
     </div>
   );
 };

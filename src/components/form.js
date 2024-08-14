@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Alert, Col, Row, Spinner } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 
@@ -16,6 +16,8 @@ function MLMForm() {
   const [formError, setFormError] = useState('');
 
   const navigate = useNavigate();
+  const location = useLocation(); 
+
 
   useEffect(() => {
     // Initialize form values from cookies
@@ -25,7 +27,15 @@ function MLMForm() {
     setPassword(Cookies.get('password') || '');
     setPhoneNo(Cookies.get('phoneNo') || '');
     setReferralCode(Cookies.get('referralCode') || '');
-  }, []);
+
+    const queryParams = new URLSearchParams(location.search);
+    const ref = queryParams.get('ref');
+    if (ref) {
+      setReferralCode(ref);
+    } else {
+      setReferralCode(Cookies.get('referralCode') || '');
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -49,6 +59,7 @@ function MLMForm() {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setisLoading(false);
       return;
     }
 

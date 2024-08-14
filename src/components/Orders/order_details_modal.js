@@ -22,7 +22,7 @@ const OrderDetailsModal = ({ show, handleClose, orderDetails }) => {
               <tr key={index}>
                 <td>{detail.product}</td>
                 <td>{detail.quantity}</td>
-                <td>${detail.price}</td>
+                <td>€{detail.price}</td>
               </tr>
             ))}
           </tbody>

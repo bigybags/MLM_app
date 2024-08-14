@@ -55,11 +55,11 @@ function Ewallet_Dashbooard() {
         <Container fluid className="mt-2">
             <div className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                    <InfoCard title="Credited" value="$ 6.12" color="text-purple-600" />
-                    <InfoCard title="Debited" value="$ 0" color="text-green-600" />
-                    <InfoCard title="E-Wallet Balance" value="$ 6.12" color="text-emerald-300" />
-                    <InfoCard title="Purchase Wallet" value="$ 0.68" color="text-teal-400" />
-                    <InfoCard title="Commission Earned" value="$ 6.80" color="text-blue-600" />
+                    <InfoCard title="Credited" value="€ 6.12" color="text-purple-600" />
+                    <InfoCard title="Debited" value="€ 0" color="text-green-600" />
+                    <InfoCard title="E-Wallet Balance" value="€ 6.12" color="text-emerald-300" />
+                    <InfoCard title="Purchase Wallet" value="€ 0.68" color="text-teal-400" />
+                    <InfoCard title="Commission Earned" value="€ 6.80" color="text-blue-600" />
                 </div>
                 <div className="bg-white mt-4 p-4 shadow">
                     <Tab.Container defaultActiveKey="summary">
@@ -95,7 +95,7 @@ function Ewallet_Dashbooard() {
                                                     className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
                                                 >
                                                     <span className="text-gray-700">{key}</span>
-                                                    <span className="text-green-500">${value}</span>
+                                                    <span className="text-green-500">€{value}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -109,7 +109,7 @@ function Ewallet_Dashbooard() {
                                                     className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
                                                 >
                                                     <span className="text-gray-700">{key}</span>
-                                                    <span className="text-red-500">${value}</span>
+                                                    <span className="text-red-500">€{value}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -132,7 +132,7 @@ function Ewallet_Dashbooard() {
                                             <tr key={index}>
                                                 <td>{transaction.memberName}</td>
                                                 <td>{transaction.category}</td>
-                                                <td>${transaction.amount}</td>
+                                                <td>€{transaction.amount}</td>
                                                 <td>{transaction.transactionDate}</td>
                                             </tr>
                                         ))}
@@ -153,7 +153,7 @@ function Ewallet_Dashbooard() {
                                             <td>
                                                 {balanceData.memberName}
                                             </td>
-                                            <td>${balanceData.balance}</td>
+                                            <td>€{balanceData.balance}</td>
                                         </tr>
                                     </tbody>
                                 </Table>

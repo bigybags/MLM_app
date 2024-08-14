@@ -72,7 +72,7 @@ const Orders = () => {
                                     <tr key={order.id}>
                                         <td>{order.id}</td>
                                         <td>{order.user}</td>
-                                        <td>${order.total_amount}</td>
+                                        <td>€{order.total_amount}</td>
                                         <td>{new Date(order.created_at).toLocaleDateString()}</td>
                                         <td>
                                             <Button

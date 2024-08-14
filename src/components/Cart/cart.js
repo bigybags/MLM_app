@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Modal, Button, Table, Toast, ToastContainer, Alert } from 'react-bootstrap';
+import { Modal, Button, Table, Toast, ToastContainer, Alert, Spinner } from 'react-bootstrap';
 import { CartContext } from '../../context/cartcontext';
 import Cookies from 'js-cookie';
 
@@ -8,6 +8,7 @@ const CartModal = ({ show, handleClose }) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastVariant, setToastVariant] = useState('success');
+  const [loading, setisLoading] = useState(false);
 
   const incrementQuantity = (item) => {
     addToCart(item);
@@ -25,7 +26,7 @@ const CartModal = ({ show, handleClose }) => {
 
   const handlePlaceOrder = async () => {
     const userId = Cookies.get('userId');
-  
+    setisLoading(true)
     if (!userId) {
       setToastMessage('User not authenticated.');
       setToastVariant('danger');
@@ -59,17 +60,20 @@ const CartModal = ({ show, handleClose }) => {
         setShowToast(true);
         handleClose();
         clearCart();
+        setisLoading(false);
       } else {
         const errorData = await response.json();
         setToastMessage(`Failed to place order: ${errorData.detail || 'Please try again.'}`);
         setToastVariant('danger');
         setShowToast(true);
+        setisLoading(false);
       }
     } catch (error) {
       console.error('Error placing order:', error);
       setToastMessage('An error occurred. Please try again.');
       setToastVariant('danger');
       setShowToast(true);
+      setisLoading(false);
     }
   };
 
@@ -105,9 +109,9 @@ const CartModal = ({ show, handleClose }) => {
                   {cartItems.map((item, index) => (
                     <tr key={index}>
                       <td>{item.name}</td>
-                      <td>${item.price}</td>
+                      <td>€{item.price}</td>
                       <td>{item.quantity}</td>
-                      <td>${(item.price * item.quantity).toFixed(2)}</td>
+                      <td>€{(item.price * item.quantity).toFixed(2)}</td>
                       <td className='d-flex gap-2'>
                         <Button variant="success" size="sm" onClick={() => incrementQuantity(item)}>+</Button>
                         <Button variant="danger" size="sm" onClick={() => decrementQuantityHandler(item)}>-</Button>
@@ -117,7 +121,7 @@ const CartModal = ({ show, handleClose }) => {
                 </tbody>
               </Table>
               <div className="text-center">
-                <h4 className='font-medium'>Total: ${totalAmount.toFixed(2)}</h4>
+                <h4 className='font-medium'>Total: €{totalAmount.toFixed(2)}</h4>
               </div>
             </>
           )}
@@ -125,7 +129,19 @@ const CartModal = ({ show, handleClose }) => {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Close</Button>
           {cartItems.length > 0 && (
-            <Button variant="primary" onClick={handlePlaceOrder}>Buy Now</Button>
+            <Button variant="primary" onClick={handlePlaceOrder} disabled={loading}>
+               {loading ? (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                  className="mr-2"
+                />
+              ) : null}
+              Buy Now
+              </Button>
           )}
         </Modal.Footer>
       </Modal>

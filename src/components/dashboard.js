@@ -138,11 +138,11 @@ function Dashboard() {
         <Container fluid className="mt-2">
           <div className="p-6 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-              <InfoCard title="E-wallet Balance" value="$ 3.83" color="text-purple-600" />
-              <InfoCard title="Income" value="$ 100.50" color="text-green-600" />
-              <InfoCard title="Bonus" value="$ 5" color="text-blue-600" />
-              <InfoCard title="Paid" value="$ 0" color="text-blue-600" />
-              <InfoCard title="Pending Amount" value="$ 0" color="text-blue-600" />
+              <InfoCard title="E-wallet Balance" value="€ 3.83" color="text-purple-600" />
+              <InfoCard title="Income" value="€ 100.50" color="text-green-600" />
+              <InfoCard title="Bonus" value="€ 5" color="text-blue-600" />
+              <InfoCard title="Paid" value="€ 0" color="text-blue-600" />
+              <InfoCard title="Pending Amount" value="€ 0" color="text-blue-600" />
             </div>
             <div className="flex gap-6">
               <div className="w-[70%]">

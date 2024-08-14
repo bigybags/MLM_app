@@ -193,7 +193,7 @@ const PinConfirmation = () => {
                         </div>
                     </Form>
                     <div className="text-center mt-3">
-                        <div onClick={() => navigate("/")} className="hover:font-semibold hover:underline cursor-pointer">Did'nt Recieve OTP? Go Back</div>
+                        <div onClick={() => navigate("/")} className="hover:font-semibold hover:underline cursor-pointer transition-all">Did'nt Recieve OTP? Go Back</div>
                     </div>
                 </Col>
             </Row>

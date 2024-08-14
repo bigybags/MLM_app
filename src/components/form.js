@@ -185,7 +185,7 @@ function MLMForm() {
         Submit
       </Button>
       <div className="text-center mt-3">
-        <a href="/login" className="text-decoration-none">Already Registered? Login</a>
+        <a href="/login" className="text-decoration-none cursor-pointer hover:font-semibold transition-all">Already Registered? Login</a>
       </div>
     </Form>
   );

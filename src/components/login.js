@@ -2,17 +2,19 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'; // Make sure to install this package
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form, Button, Container, Alert, Row, Col } from 'react-bootstrap';
+import { Form, Button, Container, Alert, Row, Col, Spinner } from 'react-bootstrap';
 
 function LoginForm() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [error, setError] = useState('');
+  const [loading, setisLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    setisLoading(true)
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
@@ -41,16 +43,18 @@ function LoginForm() {
         // Clear any previous errors
         setError('');
         console.log('Login successful');
-        
+        setisLoading(false)
         // Navigate to the dashboard
         navigate("/dashboard/dashboard");
       } else {
         // Handle login failure
         setError('Invalid email or password');
+        setisLoading(false)
       }
     } catch (error) {
       console.error('Error:', error);
       setError('An error occurred. Please try again.');
+      setisLoading(false)
     }
   };
 
@@ -82,12 +86,22 @@ function LoginForm() {
 
             {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
 
-            <Button variant="primary" type="submit" className="mt-3 w-100">
-              Login
+            <Button variant="primary" type="submit" className="mt-3 w-100" disabled={loading}>
+              {loading ? (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                  className="mr-2"
+                />
+              ) : null}
+               Login
             </Button>
           </Form>
           <div className="text-center mt-3">
-            <a href="/" className="text-decoration-none">Not Registered? Sign Up</a>
+            <a href="/" className="text-decoration-none cursor-pointer hover:font-semibold transition-all">Not Registered? Sign Up</a>
           </div>
         </Col>
       </Row>

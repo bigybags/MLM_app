@@ -16,7 +16,7 @@ const Orders = () => {
         const fetchOrders = async () => {
             try {
                 const userId = Cookies.get('userId');
-                const response = await fetch(`http://127.0.0.1:8000/api/orders/?user_id=${userId}`);
+                const response = await fetch(`https://mustafahasnain19.pythonanywhere.com/api/orders/?user_id=${userId}`);
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch orders');

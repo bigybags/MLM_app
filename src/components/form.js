@@ -59,7 +59,7 @@ function MLMForm() {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/api/send_otp/', {
+      const response = await fetch('https://mustafahasnain19.pythonanywhere.com/api/send_otp/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

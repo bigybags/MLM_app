@@ -50,7 +50,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchReferralStats = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/referralstats/?user_id=${userId}`);
+        const response = await fetch(`https://mustafahasnain19.pythonanywhere.com/api/referralstats/?user_id=${userId}`);
         if (response.ok) {
           const data = await response.json();
           console.log(data  )
@@ -88,7 +88,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchNewMembers = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/new_members/?user_id=${userId}`); // Replace '1' with the actual user ID
+        const response = await fetch(`https://mustafahasnain19.pythonanywhere.com/api/new_members/?user_id=${userId}`); // Replace '1' with the actual user ID
         if (!response.ok) {
           throw new Error('Failed to fetch new members');
         }

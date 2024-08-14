@@ -12,7 +12,7 @@ const Ranking = ({ userId }) => {
   useEffect(() => {
     const fetchPoints = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/user_points/?user_id=${userId}`); // Replace '1' with the actual user ID
+        const response = await fetch(`https://mustafahasnain19.pythonanywhere.com/api/user_points/?user_id=${userId}`); // Replace '1' with the actual user ID
         if (!response.ok) {
           throw new Error('Failed to fetch ranking and points');
         }

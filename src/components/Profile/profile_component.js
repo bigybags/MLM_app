@@ -18,7 +18,7 @@ const ProfileComponent = () => {
           throw new Error('User not authenticated');
         }
 
-        const response = await fetch(`http://127.0.0.1:8000/api/profile/${userId}/`);
+        const response = await fetch(`https://mustafahasnain19.pythonanywhere.com/api/profile/${userId}/`);
         if (!response.ok) {
           throw new Error('Failed to fetch profile data');
         }
@@ -127,12 +127,12 @@ const ProfileComponent = () => {
             </Col>
           </Row>
           <Row>
-            <Col>
+            {/* <Col>
               <div className="flex space-x-4 mb-4">
                 <button className="px-4 py-2 bg-purple-500 text-white rounded-lg">Edit</button>
                 <button className="px-4 py-2 bg-purple-500 text-white rounded-lg">Save</button>
               </div>
-            </Col>
+            </Col> */}
             <Col>
               <div className="flex space-x-4 mb-4">
                 <button className="px-4 py-2 bg-green-400 text-white rounded-lg">Share Code</button>

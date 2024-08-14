@@ -22,7 +22,7 @@ const ProductDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/products/');
+      const response = await fetch('https://mustafahasnain19.pythonanywhere.com/api/products/');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

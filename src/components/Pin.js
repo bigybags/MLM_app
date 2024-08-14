@@ -69,7 +69,7 @@ const PinConfirmation = () => {
             referral_code: referralCode
         }
         try {
-            const response = await fetch('http://localhost:8000/api/register/', {
+            const response = await fetch('https://mustafahasnain19.pythonanywhere.com/api/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -115,7 +115,7 @@ const PinConfirmation = () => {
         setLoading(true); // Start loading
 
         try {
-            const response = await fetch('http://localhost:8000/api/verify_otp/', {
+            const response = await fetch('https://mustafahasnain19.pythonanywhere.com/api/verify_otp/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -19,6 +19,12 @@ import DashboardLayout from './components/dashboard_layout';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Orders_dashboard from './components/Orders/order_dashboard';
 import PinConfirmation from './components/Pin';
+import EwalletComponent from './components/E_wallet/ewalller_add_funds';
+import RedeemPoints from './components/E_wallet/payout';
+import Checkout from './components/Checkout/checkout';
+import BusinessLoanForm from './components/Test';
+import Statements from './components/Statements/Statements';
+import ProductDetail from './components/Products/Product_Detail';
 
 
 function App() {
@@ -34,6 +40,7 @@ function App() {
       <Route path="/" element={<MLMForm />} />
       <Route path="/pin" element={<PinConfirmation />} />
       <Route path="/login" element={<LoginForm />} />
+      <Route path="/test" element={<BusinessLoanForm />} />
     </Route>
 
     {/* Dashboard Routes */}
@@ -41,9 +48,14 @@ function App() {
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="network" element={<NetworkDashboard />} />
       <Route path="products" element={<ProductDashboard />} />
+      <Route path="products/:id" element={<ProductDetail />} />
       <Route path="ewallet" element={<Ewallet_Dashboard />} />
       <Route path="profile" element={<ProfileDashboard />} />
       <Route path="orders" element={<Orders_dashboard />} />
+      <Route path="addfunds" element={<EwalletComponent />} />
+      <Route path="payout" element={<RedeemPoints />} />
+      <Route path="checkout" element={<Checkout />} />
+      <Route path="statements" element={<Statements />} />
     </Route>
   </Routes>
   );

@@ -2,21 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import OrderDetailsModal from './order_details_modal';
+import OrderTrackingModal from './order_tracking';
+import { API_URL } from "../../utils/config";
+
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [selectedOrderDetails, setSelectedOrderDetails] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [loading, setLoading] = useState(true);  // Loading state
-    const [error, setError] = useState(null);  // Error state
-
-
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [showTrackingModal, setShowTrackingModal] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const userId = Cookies.get('userId');
-                const response = await fetch(`https://mustafahasnain19.pythonanywhere.com/api/orders/?user_id=${userId}`);
+                const response = await fetch(`${API_URL}/orders/?user_id=${userId}`);
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch orders');
@@ -36,12 +39,12 @@ const Orders = () => {
 
     const handleOrderDetails = (orderDetails) => {
         setSelectedOrderDetails(orderDetails);
-        setShowModal(true);
+        setShowDetailsModal(true);
     };
 
-    const handleCloseModal = () => {
-        setShowModal(false);
-        setSelectedOrderDetails([]);
+    const handleOrderTracking = (orderId) => {
+        setSelectedOrderId(orderId);
+        setShowTrackingModal(true);
     };
 
     return (
@@ -74,14 +77,20 @@ const Orders = () => {
                                     <tr key={order.id}>
                                         <td>{order.id}</td>
                                         <td>{order.user}</td>
-                                        <td>€{order.total_amount}</td>
+                                        <td>£{order.total_amount}</td>
                                         <td>{new Date(order.created_at).toLocaleDateString()}</td>
-                                        <td>
+                                        <td className="d-flex gap-2">
                                             <Button
                                                 variant="info"
                                                 onClick={() => handleOrderDetails(order.order_details)}
                                             >
                                                 Order Details
+                                            </Button>
+                                            <Button
+                                                variant="warning"
+                                                onClick={() => handleOrderTracking(order.id)}
+                                            >
+                                                Track Order
                                             </Button>
                                         </td>
                                     </tr>
@@ -94,9 +103,16 @@ const Orders = () => {
 
             {/* Order Details Modal */}
             <OrderDetailsModal
-                show={showModal}
-                handleClose={handleCloseModal}
+                show={showDetailsModal}
+                handleClose={() => setShowDetailsModal(false)}
                 orderDetails={selectedOrderDetails}
+            />
+
+            {/* Order Tracking Modal */}
+            <OrderTrackingModal
+                show={showTrackingModal}
+                handleClose={() => setShowTrackingModal(false)}
+                orderId={selectedOrderId}
             />
         </Container>
     );

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'; // Make sure to install this package
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Container, Alert, Row, Col, Spinner } from 'react-bootstrap';
+import { API_URL } from "../utils/config";
+
 
 function LoginForm() {
   const emailRef = useRef(null);
@@ -25,7 +27,7 @@ function LoginForm() {
     }
 
     try {
-      const response = await fetch('https://mustafahasnain19.pythonanywhere.com/api/login/', {
+      const response = await fetch(`${API_URL}/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

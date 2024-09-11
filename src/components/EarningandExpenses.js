@@ -8,12 +8,12 @@ const EarningsAndExpenses = () => {
   const [activeTab, setActiveTab] = useState('earnings');
 
   const earningsData = [
-    { label: 'Rank Bonus', amount: '€ 9.68' },
-    { label: 'Referral', amount: '€ 62.12' },
-    { label: 'Level Commission', amount: '€ 57.28' },
-    { label: 'Vacation Fund', amount: '€ 1.61' },
-    { label: 'Education Fund', amount: '€ 3.23' },
-    { label: 'Car Fund', amount: '€ 7.26' },
+    { label: 'Rank Bonus', amount: '£ 9.68' },
+    { label: 'Referral', amount: '£ 62.12' },
+    { label: 'Level Commission', amount: '£ 57.28' },
+    { label: 'Vacation Fund', amount: '£ 1.61' },
+    { label: 'Education Fund', amount: '£ 3.23' },
+    { label: 'Car Fund', amount: '£ 7.26' },
   ];
 
   const expensesData = [

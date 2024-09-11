@@ -3,22 +3,30 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'js-cookie';
 import { Col, Row, Spinner, Button } from 'react-bootstrap';
 import ShareCodeModal from './share_code_modal';
+import UploadModal from './file_upload_modal';
+import { API_URL } from"../../utils/config";
+
 
 const ProfileComponent = () => {
+  const [userid, setUserId] = useState(null);
   const [ProfileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false); // State for handling modal visibility
+  const [showUploadModal, setShowUploadModal] = useState(false); // State for handling modal visibility
+
+
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const userId = Cookies.get('userId');
+        setUserId(userId)
         if (!userId) {
           throw new Error('User not authenticated');
         }
 
-        const response = await fetch(`https://mustafahasnain19.pythonanywhere.com/api/profile/${userId}/`);
+        const response = await fetch(`${API_URL}/profile/${userId}/`);
         if (!response.ok) {
           throw new Error('Failed to fetch profile data');
         }
@@ -49,7 +57,9 @@ const ProfileComponent = () => {
   }
 
   const handleOpenModal = () => setShowModal(true);
+  const handleUploadOpenModel = () => setShowUploadModal(true);
   const handleCloseModal = () => setShowModal(false);
+  const handleUploadCloseModal = () => setShowUploadModal(false);
 
   return (
     <div className="flex justify-center items-center mt-[5%] bg-gray-100">
@@ -118,6 +128,13 @@ const ProfileComponent = () => {
                 </Button>
               </div>
             </Col>
+            <Col>
+              <div className="flex space-x-4 mb-4">
+                <Button variant="primary" onClick={handleUploadOpenModel}>
+                  Upload Documents
+                </Button>
+              </div>
+            </Col>
           </Row>
           <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg">
             <div className="text-center">
@@ -141,6 +158,11 @@ const ProfileComponent = () => {
         show={showModal}
         handleClose={handleCloseModal}
         userReferralCode={ProfileData.user.user_referral_code}
+      />
+       <UploadModal
+        show={showUploadModal}
+        handleClose={handleUploadCloseModal}
+        userId={userid}
       />
     </div>
   );

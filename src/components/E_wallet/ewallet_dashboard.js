@@ -1,181 +1,158 @@
-import React, { useState } from "react";
-// import ChartistGraph from "react-chartist";
-// react-bootstrap components
-import { Tab, Nav, Row, Col, Container, Table, Image } from 'react-bootstrap';
-
-import Sidebar from "../sidebar";
-import TopNavbar from "../navbar";
-import "../../styles/dashboard.css";
+import React, { useState, useEffect } from "react";
+import { Tab, Nav, Row, Col, Container, Table, Spinner, Form } from 'react-bootstrap';
 import InfoCard from "../info-card";
+import Cookies from 'js-cookie';
+import { API_URL } from "../../utils/config";
 
 
-function Ewallet_Dashbooard() {
-    const eWalletSummaryData = {
-        credit: {
-            'Admin Credit': 0,
-            'Payout Cancelled': 0,
-            'Referral Commission': 3.83,
-            'Level Commission': 2.3,
-        },
-        debit: {
-            'Fund Debit Admin': 0,
-            'Payout Requested': 0,
-            'Payout Released (Manual)': 0,
-            'Payout Fee': 0,
-            'Fund Transfer Fee': 0,
-            'Payout Release': 0,
-            'Ewallet Payment': 0,
-        },
+function Ewallet_Dashboard() {
+    const [data, setData] = useState({
+        credit: 0,
+        debit: 0,
+        transactions: [],
+        payoutTransactions: [],
+        remainingPoints: 0,
+        commissionEarned: 0,
+    });
+    const [isLoading, setIsLoading] = useState(true);
+    const [filteredTransactions, setFilteredTransactions] = useState([]);
+    const [filteredPayoutTransactions, setFilteredPayoutTransactions] = useState([]);
+    const [filterDate, setFilterDate] = useState('');
+    const userId = Cookies.get('userId');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${API_URL}/transaction_dashboard/${userId}/`);
+                if (response.ok) {
+                    const result = await response.json();
+
+                    const credit = result.transactions.reduce((acc, t) => acc + parseFloat(t.amount > 0 ? t.amount : 0), 0);
+                    const debit = result.transactions.reduce((acc, t) => acc + parseFloat(t.amount < 0 ? t.amount : 0), 0);
+
+                    const commissionEarned = result.transactions.filter(t => t.category && t.category.includes('Commission')).reduce((acc, t) => acc + parseFloat(t.amount), 0);
+
+                    setData({
+                        credit,
+                        debit,
+                        transactions: result.transactions,
+                        payoutTransactions: result.payout_transactions,
+                        remainingPoints: result.user_points.points,
+                        commissionEarned,
+                    });
+                    setFilteredTransactions(result.transactions);
+                    setFilteredPayoutTransactions(result.payout_transactions);
+                    setIsLoading(false);
+                } else {
+                    console.error('Failed to fetch');
+                }
+            } catch (error) {
+                console.error("Error fetching transaction dashboard data:", error);
+            }
+        };
+
+        fetchData();
+    }, [userId]);
+
+    const handleDateFilter = (date) => {
+        setFilterDate(date);
+    
+        const filteredTransactions = data.transactions.filter(transaction => {
+            const transactionDate = new Date(transaction.updated_at);
+            return !isNaN(transactionDate) && transactionDate.toISOString().split('T')[0] === date;
+        });
+    
+        const filteredPayoutTransactions = data.payoutTransactions.filter(transaction => {
+            const transactionDate = new Date(transaction.created_at);
+            return !isNaN(transactionDate) && transactionDate.toISOString().split('T')[0] === date;
+        });
+    
+        setFilteredTransactions(filteredTransactions);
+        setFilteredPayoutTransactions(filteredPayoutTransactions);
     };
-    const [data, setData] = useState(eWalletSummaryData);
 
-    const transactionData = [
-        {
-            memberName: 'ru8pozbhc',
-            category: 'Referral Commission',
-            amount: 3.83,
-            transactionDate: 'Aug 03, 2024, 01:52 AM',
-        },
-        {
-            memberName: 'ru8pozbhc',
-            category: 'Level Commission',
-            amount: 2.3,
-            transactionDate: 'Aug 03, 2024, 01:52 AM',
-        },
-    ];
-
-    const balanceData = {
-        memberName: 'ru8pozbhc',
-        balance: 6.12,
-        imagePath: '/mnt/data/image.png',
-    };
+    if (isLoading) {
+        return <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+        </Spinner>;
+    }
 
     return (
-
-        <Container fluid className="mt-2">
+        <Container fluid >
             <div className="p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                    <InfoCard title="Credited" value="€ 6.12" color="text-purple-600" />
-                    <InfoCard title="Debited" value="€ 0" color="text-green-600" />
-                    <InfoCard title="E-Wallet Balance" value="€ 6.12" color="text-emerald-300" />
-                    <InfoCard title="Purchase Wallet" value="€ 0.68" color="text-teal-400" />
-                    <InfoCard title="Commission Earned" value="€ 6.80" color="text-blue-600" />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <InfoCard title="Credited" value={`£ ${data.credit.toFixed(2)}`} color="text-purple-600" />
+                    <InfoCard title="Debited" value={`£ ${Math.abs(data.debit).toFixed(2)}`} color="text-red-600" />
+                    <InfoCard title="Remaining Points" value={data.remainingPoints} color="text-emerald-300" />
+                    <InfoCard title="Commission Earned" value={`£ ${data.commissionEarned.toFixed(2)}`} color="text-blue-600" />
                 </div>
                 <div className="bg-white mt-4 p-4 shadow">
-                    <Tab.Container defaultActiveKey="summary">
+                    <Tab.Container defaultActiveKey="transaction">
                         <Nav variant="tabs">
                             <Nav.Item>
-                                <Nav.Link eventKey="summary">E-Wallet Summary</Nav.Link>
+                                <Nav.Link eventKey="transaction">Transactions</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link eventKey="transaction">E-Wallet Transaction</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link eventKey="balance">E-Wallet Balance</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link eventKey="purchase">Purchase Wallet</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link eventKey="statement">E-Wallet Statement</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link eventKey="earnings">User Earnings</Nav.Link>
+                                <Nav.Link eventKey="payout">Payout Transactions</Nav.Link>
                             </Nav.Item>
                         </Nav>
                         <Tab.Content className="mt-4">
-                            <Tab.Pane eventKey="summary">
-                                <Row>
-                                    <Col md={6}>
-                                        <h5 className="font-bold">Credit</h5>
-                                        <div className="grid grid-cols-2 gap-4 mt-4">
-                                            {Object.entries(data.credit).map(([key, value]) => (
-                                                <div
-                                                    key={key}
-                                                    className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
-                                                >
-                                                    <span className="text-gray-700">{key}</span>
-                                                    <span className="text-green-500">€{value}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </Col>
-                                    <Col md={6}>
-                                        <h5 className="font-bold">Debit</h5>
-                                        <div className="grid grid-cols-2 gap-4 mt-4">
-                                            {Object.entries(data.debit).map(([key, value]) => (
-                                                <div
-                                                    key={key}
-                                                    className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
-                                                >
-                                                    <span className="text-gray-700">{key}</span>
-                                                    <span className="text-red-500">€{value}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </Tab.Pane>
+                            <Form.Group as={Col} controlId="filterDate" className="mb-4">
+                                <Form.Label>Filter by Date</Form.Label>
+                                <Form.Control type="date" value={filterDate} onChange={(e) => handleDateFilter(e.target.value)} />
+                            </Form.Group>
                             <Tab.Pane eventKey="transaction">
-                                {/* <h5 className="font-bold">E-Wallet Transaction</h5> */}
-                                <Table striped bordered hover>
+                                <Table striped bordered hover responsive>
                                     <thead>
                                         <tr>
-                                            <th>Member Name</th>
-                                            <th>Category</th>
+                                            <th>Transaction ID</th>
                                             <th>Amount</th>
+                                            <th>Status</th>
                                             <th>Transaction Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {transactionData.map((transaction, index) => (
+                                        {filteredTransactions.map((transaction, index) => (
                                             <tr key={index}>
-                                                <td>{transaction.memberName}</td>
-                                                <td>{transaction.category}</td>
-                                                <td>€{transaction.amount}</td>
-                                                <td>{transaction.transactionDate}</td>
+                                                <td>{transaction.transaction_id}</td>
+                                                <td>£{parseFloat(transaction.amount).toFixed(2)}</td>
+                                                <td>{transaction.status}</td>
+                                                <td>{new Date(transaction.updated_at).toLocaleString()}</td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </Table>
                             </Tab.Pane>
-                            <Tab.Pane eventKey="balance">
-                                {/* <h5 className="font-bold">E-Wallet Balance</h5> */}
-                                <Table striped bordered hover>
+                            <Tab.Pane eventKey="payout">
+                                <Table striped bordered hover responsive>
                                     <thead>
                                         <tr>
-                                            <th>Member Name</th>
-                                            <th>E-Wallet Balance</th>
+                                            <th>Transaction ID</th>
+                                            <th>Points Redeemed</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Transaction Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                {balanceData.memberName}
-                                            </td>
-                                            <td>€{balanceData.balance}</td>
-                                        </tr>
+                                        {filteredPayoutTransactions.map((transaction, index) => (
+                                            <tr key={index}>
+                                                <td>{transaction.transaction_id}</td>
+                                                <td>{transaction.points_redeemed}</td>
+                                                <td>£{parseFloat(transaction.amount).toFixed(2)}</td>
+                                                <td>{transaction.status}</td>
+                                                <td>{new Date(transaction.created_at).toLocaleString()}</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </Table>
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="purchase">
-                                <h5 className="font-bold">Purchase Wallet</h5>
-                                {/* Add content for Purchase Wallet */}
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="statement">
-                                <h5 className="font-bold">E-Wallet Statement</h5>
-                                {/* Add content for E-Wallet Statement */}
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="earnings">
-                                <h5 className="font-bold">User Earnings</h5>
-                                {/* Add content for User Earnings */}
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>
                 </div>
             </div>
-        </Container>    
+        </Container>
     );
 }
 
-export default Ewallet_Dashbooard;
+export default Ewallet_Dashboard;

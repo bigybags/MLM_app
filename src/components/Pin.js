@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Form, Button, Row, Col, Container, Toast, ToastContainer, Spinner } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from "../utils/config";
+
+
 
 const PinConfirmation = () => {
     const [pin, setPin] = useState(new Array(4).fill(''));
@@ -69,7 +72,7 @@ const PinConfirmation = () => {
             referral_code: referralCode
         }
         try {
-            const response = await fetch('https://mustafahasnain19.pythonanywhere.com/api/register/', {
+            const response = await fetch(`${API_URL}/register/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -115,7 +118,7 @@ const PinConfirmation = () => {
         setLoading(true); // Start loading
 
         try {
-            const response = await fetch('https://mustafahasnain19.pythonanywhere.com/api/verify_otp/', {
+            const response = await fetch(`${API_URL}/verify_otp/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

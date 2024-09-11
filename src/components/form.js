@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Alert, Col, Row, Spinner } from 'react-bootstrap';
 import Cookies from 'js-cookie';
+import { API_URL } from "../utils/config";
+
 
 function MLMForm() {
   const [email, setEmail] = useState('');
@@ -70,7 +72,7 @@ function MLMForm() {
     };
 
     try {
-      const response = await fetch('https://mustafahasnain19.pythonanywhere.com/api/send_otp/', {
+      const response = await fetch(`${API_URL}/send_otp/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

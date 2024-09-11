@@ -1,68 +1,112 @@
-import React, { useState, useEffect } from 'react';
-import {
-  CDBSidebar,
-  CDBSidebarContent,
-  CDBSidebarFooter,
-  CDBSidebarHeader,
-  CDBSidebarMenu,
-  CDBSidebarMenuItem,
-} from 'cdbreact';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { FaTimes } from 'react-icons/fa'; // Close icon for the sidebar
+import { NavLink, useLocation } from 'react-router-dom';
 
+const Sidebar = ({ isOpen, toggleSidebar, setOpen}) => {
+  const location = useLocation(); // Get current location (URL)
 
-const Sidebar = () => {
-
-    const location = useLocation();
-    const [activePath, setActivePath] = useState('/');
-    const navigate = useNavigate()
-  
-    useEffect(() => {
-      setActivePath(location.pathname);
-    }, [location]);
-
-   
-  
-    const isActive = (path) => {
-      return activePath === path ? 'bg-blue-100 text-blue-600 font-bold' : 'text-blue-700 font-medium';
-    };
-    
+  useEffect(()=>{
+    setOpen(false);
+  },[location]);
 
   return (
-    <div className='Poppins' style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
-      <CDBSidebar textColor="#072342" backgroundColor="">
-        <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
-          <a href="/dashboard/dashboard" className="text-decoration-none" style={{ color: 'inherit' }}>
-            <img src="//bigybags.com/cdn/shop/files/Bigy_Bags-logo_300x300.png?v=1649403703" alt='Biggy Bags' className='w-[25%] absolute top-[1%]'></img>
-          </a>
-        </CDBSidebarHeader>
+    <>
+      {/* Sidebar as an overlay */}
+      <div
+        className={`fixed top-0 left-0 h-full w-[250px] bg-white shadow-lg z-50 transition-transform transform ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {/* Sidebar header with close button */}
+        <div className="flex justify-between items-center p-4 bg-blue-100">
+        <img src="//bigybags.com/cdn/shop/files/Bigy_Bags-logo_300x300.png?v=1649403703" alt="Biggy Bags" className="h-14 w-16 origin-center" />
+          {/* <span className="text-lg font-bold">Biggy Bags</span> */}
+          <FaTimes size="1em" className="cursor-pointer" onClick={toggleSidebar} />
+        </div>
 
-        <CDBSidebarContent className="sidebar-content">
-          <CDBSidebarMenu> 
-            <NavLink exact to="/dashboard/dashboard"  className={`flex items-center hover:bg-gray-200 rounded-lg ${isActive('/dashboard/dashboard')}`} >
-              <CDBSidebarMenuItem icon="th-large">Dashboard</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink exact to="/dashboard/network" className={`flex items-center hover:bg-gray-200 rounded-lg ${isActive('/dashboard/network')}`} >
-              <CDBSidebarMenuItem icon="sitemap">Network</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink exact to="/dashboard/products" className={`flex items-center hover:bg-gray-200 rounded-lg ${isActive('/dashboard/products')}`}>
-              <CDBSidebarMenuItem icon="sticky-note">Products</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink exact to="/dashboard/ewallet" className={`flex items-center hover:bg-gray-200 rounded-lg ${isActive('/dashboard/ewallet')}`} >
-              <CDBSidebarMenuItem icon="wallet">E Wallet</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink exact to="/dashboard/profile" className={`flex items-center hover:bg-gray-200 rounded-lg ${isActive('/dashboard/profile')}`} >
-              <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink exact to="/dashboard/orders" className={`flex items-center hover:bg-gray-200 rounded-lg ${isActive('/dashboard/orders')}`} >
-              <CDBSidebarMenuItem icon="list">Orders</CDBSidebarMenuItem>
-            </NavLink>
-          </CDBSidebarMenu>
-        </CDBSidebarContent>
-      </CDBSidebar>
-    </div>
+        {/* Sidebar Menu */}
+        <div className="p-4 space-y-3"> {/* Add vertical spacing between items */}
+          <NavLink
+            to="/dashboard/dashboard"
+            className={({ isActive }) =>
+              isActive
+                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
+                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+            }
+          >
+            Dashboard
+          </NavLink>
+          <NavLink
+            to="/dashboard/network"
+            className={({ isActive }) =>
+              isActive
+                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
+                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+            }
+          >
+            Network
+          </NavLink>
+          <NavLink
+            to="/dashboard/products"
+            className={({ isActive }) =>
+              isActive
+                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
+                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+            }
+          >
+            Products
+          </NavLink>
+          <NavLink
+            to="/dashboard/ewallet"
+            className={({ isActive }) =>
+              isActive
+                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
+                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+            }
+          >
+            Transaction History
+          </NavLink>
+          <NavLink
+            to="/dashboard/payout"
+            className={({ isActive }) =>
+              isActive
+                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
+                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+            }
+          >
+            Redeem Points
+          </NavLink>
+          <NavLink
+            to="/dashboard/profile"
+            className={({ isActive }) =>
+              isActive
+                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
+                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+            }
+          >
+            Profile
+          </NavLink>
+          <NavLink
+            to="/dashboard/statements"
+            className={({ isActive }) =>
+              isActive
+                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
+                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+            }
+          >
+            Statements
+          </NavLink>
+        </div>
+      </div>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-40"
+          onClick={toggleSidebar}
+        ></div>
+      )}
+    </>
   );
 };
 

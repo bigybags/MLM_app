@@ -146,12 +146,25 @@ function Dashboard() {
             <>
               <InfoCard title="Balance" value="£ 0" color="text-purple-600" />
               <InfoCard title="Income" value="£ 0" color="text-green-600" />
-              <InfoCard title="Comission" value={`${currentStatement.commission_percentage}%`} color="text-blue-600" />
+              <InfoCard title="Comission" value={`${currentStatement.commission_percentage ?? 0}%`} color="text-blue-600" />
               <InfoCard title="Total Paid" value="£ 0" color="text-blue-600" />
               <InfoCard title="Pending Amount" value="£ 0" color="text-blue-600" />
-              <InfoCard title="User Purchase" value={`£${currentStatement.user_purchase}`} color="text-purple-600" />
-              <InfoCard title="Referral Purchase" value={`£${currentStatement.referral_purchase}`} color="text-blue-600" />
-              <InfoCard title="Cumulative Points" value={currentStatement.cumulative_points} color="text-orange-600" />
+              <InfoCard
+                title="User Purchase"
+                value={`£${currentStatement.user_purchase ?? 0}`}  // Set to 0 if null or undefined
+                color="text-purple-600"
+              />
+              <InfoCard
+                title="Referral Purchase"
+                value={`£${currentStatement.referral_purchase ?? 0}`}  // Set to 0 if null or undefined
+                color="text-blue-600"
+              />
+              <InfoCard
+                title="Cumulative Points"
+                value={currentStatement.cumulative_points ?? 0}  // Set to 0 if null or undefined
+                color="text-orange-600"
+              />
+
             </>
           )}
         </div>

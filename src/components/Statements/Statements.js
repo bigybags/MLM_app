@@ -80,13 +80,19 @@ const Statements = () => {
                                         <Card.Title className="text-lg font-bold mb-3">Current Month Statement</Card.Title>
                                         <Card.Body className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                             {/* Using InfoCard Component */}
-                                            <InfoCard title="User Purchase" value={`£${currentMonthStatement.user_purchase}`} color="text-purple-600" />
-                                            <InfoCard title="Referral Purchase" value={`£${currentMonthStatement.referral_purchase}`} color="text-blue-600" />
-                                            <InfoCard title="Group Purchase" value={`£${currentMonthStatement.group_purchase}`} color="text-green-600" />
-                                            <InfoCard title="Cumulative Purchase" value={`£${currentMonthStatement.cumulative_purchase}`} color="text-red-600" />
-                                            <InfoCard title="Cumulative Points" value={currentMonthStatement.cumulative_points} color="text-orange-600" />
-                                            <InfoCard title="Commission Percentage" value={`${currentMonthStatement.commission_percentage}%`} color="text-teal-600" />
-                                            <InfoCard title="Updated At" value={new Date(currentMonthStatement.updated_at).toLocaleDateString()} color="text-gray-600" />
+                                            <InfoCard title="User Purchase" value={`£${currentMonthStatement.user_purchase ?? 0}`} color="text-purple-600" />
+                                            <InfoCard title="Referral Purchase" value={`£${currentMonthStatement.referral_purchase ?? 0}`} color="text-blue-600" />
+                                            <InfoCard title="Group Purchase" value={`£${currentMonthStatement.group_purchase ?? 0}`} color="text-green-600" />
+                                            <InfoCard title="Cumulative Purchase" value={`£${currentMonthStatement.cumulative_purchase ?? 0}`} color="text-red-600" />
+                                            <InfoCard title="Cumulative Points" value={currentMonthStatement.cumulative_points ?? 0} color="text-orange-600" />
+                                            <InfoCard title="Commission Percentage" value={`${currentMonthStatement.commission_percentage ?? 0}%`} color="text-teal-600" />
+                                            {currentMonthStatement.updated_at && (
+                                                <InfoCard
+                                                    title="Updated At"
+                                                    value={new Date(currentMonthStatement.updated_at).toLocaleDateString()}
+                                                    color="text-gray-600"
+                                                />
+                                            )}
                                         </Card.Body>
                                     </Card>
                                 )}

@@ -242,7 +242,7 @@ const Checkout = () => {
 
             console.log("order data", orderData);
 
-            const response = await fetch(`${API_URL}/order/`, {
+            const response = await fetch(`${API_URL}/order`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

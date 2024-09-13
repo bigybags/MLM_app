@@ -22,7 +22,6 @@ import PinConfirmation from './components/Pin';
 import EwalletComponent from './components/E_wallet/ewalller_add_funds';
 import RedeemPoints from './components/E_wallet/payout';
 import Checkout from './components/Checkout/checkout';
-import BusinessLoanForm from './components/Test';
 import Statements from './components/Statements/Statements';
 import ProductDetail from './components/Products/Product_Detail';
 
@@ -40,7 +39,6 @@ function App() {
       <Route path="/" element={<MLMForm />} />
       <Route path="/pin" element={<PinConfirmation />} />
       <Route path="/login" element={<LoginForm />} />
-      <Route path="/test" element={<BusinessLoanForm />} />
     </Route>
 
     {/* Dashboard Routes */}

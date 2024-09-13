@@ -4,6 +4,8 @@ import Cookies from 'js-cookie'; // Make sure to install this package
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Container, Alert, Row, Col, Spinner } from 'react-bootstrap';
 import { API_URL } from "../utils/config";
+import Banner from './Banner';
+import CustomNavbar from './CustomNavbar';
 
 
 function LoginForm() {
@@ -62,25 +64,29 @@ function LoginForm() {
   };
 
   return (
-    <Container className="mt-5">
+    <div fluid>
+      <div>
+        <CustomNavbar />
+      </div>
+      <div>
+        <Banner />
+      </div>
+
       <Row className="justify-content-center">
-        <Col md={6} lg={4}>
-          <h2 className="text-center mb-4 text-2xl font-bold">Login</h2>
-          <Form onSubmit={handleLogin}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email</Form.Label>
+        <Col md={5} lg={3}>
+          <h2 className="text-center mb-4 text-2xl font-semibold">Sign in</h2>
+          <Form onSubmit={handleLogin} className='w-full'>
+            <Form.Group controlId="formBasicEmail" className='space-y-5 '>
               <Form.Control
                 type="email"
+                className='rounded-3xl bg-[#F0F0F0]'
                 placeholder="Enter your email"
                 ref={emailRef}
                 required
               />
-            </Form.Group>
-
-            <Form.Group controlId="formBasicPassword" className="mt-3">
-              <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
+                className='rounded-3xl bg-[#F0F0F0]'
                 placeholder="Enter your password"
                 ref={passwordRef}
                 required
@@ -89,7 +95,7 @@ function LoginForm() {
 
             {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
 
-            <Button variant="primary" type="submit" className="mt-3 w-100" disabled={loading}>
+            <Button variant="primary" type="submit" className="mt-3 w-100 rounded-3xl bg-[#001B36] text-white" disabled={loading}>
               {loading ? (
                 <Spinner
                   as="span"
@@ -100,15 +106,16 @@ function LoginForm() {
                   className="mr-2"
                 />
               ) : null}
-               Login
+              Sign in
             </Button>
           </Form>
-          <div className="text-center mt-3">
-            <a href="/" className="text-decoration-none cursor-pointer hover:font-semibold transition-all">Not Registered? Sign Up</a>
+          <div className="text-center mt-[10%] justify-center border-t-[1px] border-t-black pt-[10%]">
+            <p className="text-decoration-none cursor-pointer">Do not have account?</p>
+            <Button className='bg-white text-[#1E1E1E] rounded-3xl w-full border border-black' onClick={()=>{navigate("/")}}>Sign up</Button>
           </div>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 }
 

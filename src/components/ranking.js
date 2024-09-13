@@ -19,7 +19,7 @@ const Ranking = ({ userId }) => {
   const [error, setError] = useState(null);
 
   const medals = ['Silver', 'Gold', 'Emerald', 'Diamond', 'Ambassador'];
-  
+
   // Define the medals with corresponding image placeholders
   const medalImages = {
     NoPin: NoPinMedal,
@@ -64,43 +64,41 @@ const Ranking = ({ userId }) => {
   };
 
   return (
-    <div className='flex flex-col items-center'>
-      <div className='flex gap-4 flex-col lg:flex-row'>
-        <Card className="shadow rounded-lg p-4 mb-4">
-          <Card.Body className="flex flex-col items-center">
-            {/* Medal Display */}
-            <div className="flex justify-center gap-4 mt-4">
-              {['NoPin', ...medals].map((medal) => (
-                <div
-                  key={medal}
-                  className={`flex flex-col items-center transition-all ${getMedalOpacity(medal)}`}
-                >
-                  <img
-                    src={medalImages[medal]}
-                    alt={`${medal} medal`}
-                    className="w-12 h-12 object-cover"
-                  />
-                  <p className="font-bold text-xs mt-1">{medal}</p>
-                </div>
-              ))}
-            </div>
+      <Card className="shadow-md rounded-lg w-fit border-0">
+        <Card.Title className=' text-center'>Pin Status</Card.Title>
+        <Card.Body className="flex flex-col items-center">
+          {/* Medal Display */}
+          <div className="flex justify-center gap-4">
+            {['NoPin', ...medals].map((medal) => (
+              <div
+                key={medal}
+                className={`flex flex-col items-center transition-all ${getMedalOpacity(medal)}`}
+              >
+                <img
+                  src={medalImages[medal]}
+                  alt={`${medal} medal`}
+                  className="w-12 h-12 object-cover"
+                />
+                <p className="font-bold text-xs mt-1">{medal}</p>
+              </div>
+            ))}
+          </div>
 
-            {/* Current Ranking Info */}
-            {/* <h5 className="font-bold">Current Ranking</h5> */}
-            {/* <p className="text-xl">{points.status}</p> */}
-          </Card.Body>
-        </Card>
+          {/* Current Ranking Info */}
+          {/* <h5 className="font-bold">Current Ranking</h5> */}
+          {/* <p className="text-xl">{points.status}</p> */}
+        </Card.Body>
+      </Card>
 
-        {/* Points Card */}
-        <Card className="shadow rounded-lg p-4 mb-4">
-          <Card.Body className="flex flex-col items-center">
-            <div className="text-6xl mb-4">🏅</div>
-            <h5 className="font-bold">Points</h5>
-            <p className="text-xl">{points.points}</p>
-          </Card.Body>
-        </Card>
-      </div>
-    </div>
+      // {/* Points Card */}
+      // {/* <Card className="shadow rounded-lg p-4 mb-4">
+      //     <Card.Body className="flex flex-col items-center">
+      //       <div className="text-6xl mb-4">🏅</div>
+      //       <h5 className="font-bold">Points</h5>
+      //       <p className="text-xl">{points.points}</p>
+      //     </Card.Body>
+      //   </Card> */}
+    
   );
 };
 

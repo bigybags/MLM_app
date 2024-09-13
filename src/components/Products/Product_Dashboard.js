@@ -217,7 +217,7 @@ const ProductDashboard = () => {
                   ) : (
                     <div className="relative">
                       <div className="flex overflow-x-auto custom-scrollbar py-2">
-                        <div className="flex gap-[17%]">
+                        <div className="flex gap-[2%]">
                           {filteredProducts
                             .filter(product => product.sub_category === subCategory.id)
                             .map((product) => (

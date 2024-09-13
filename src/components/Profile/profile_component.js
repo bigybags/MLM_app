@@ -62,8 +62,8 @@ const ProfileComponent = () => {
   const handleUploadCloseModal = () => setShowUploadModal(false);
 
   return (
-    <div className="flex justify-center items-center mt-[5%] bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl flex">
+    <div className="flex justify-center items-center mt-[5%] p-2">
+      <div className="bg-white shadow rounded-lg p-6 w-full max-w-4xl flex">
         <div className="w-[25%] flex flex-col items-center border-r border-gray-200 pr-6">
           <img
             src="https://user.infinitemlmsoftware.com/images/user-profile.png"

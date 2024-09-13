@@ -23,6 +23,7 @@ import NewMembers from "./new_members";
 import Ranking from "./ranking";
 import Cookies from 'js-cookie';
 import { API_URL } from "../utils/config";
+import PurchasesLineGraph from "./Graphs/user_referral_graph";
 
 
 function Dashboard() {
@@ -164,18 +165,19 @@ function Dashboard() {
                 value={currentStatement.cumulative_points ?? 0}  // Set to 0 if null or undefined
                 color="text-orange-600"
               />
-
+              <div>
+                {loadingMembers ? (
+                  <Spinner animation="border" />
+                ) : (
+                  <Ranking userId={userId} />
+                )}
+              </div>
             </>
           )}
+
         </div>
-        <div className="mt-4 flex gap-6">
-          <div>
-            {loadingMembers ? (
-              <Spinner animation="border" />
-            ) : (
-              <Ranking userId={userId} />
-            )}
-          </div>
+        <div>
+          <PurchasesLineGraph />
         </div>
         <div className="flex gap-6">
           <div className="w-[70%]">
@@ -193,6 +195,7 @@ function Dashboard() {
             )}
           </div>
         </div>
+
       </div>
     </Container>
   );

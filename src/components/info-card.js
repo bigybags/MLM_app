@@ -2,7 +2,7 @@ import React from 'react';
 
 const InfoCard = ({ title, value, color }) => {
     return (
-        <div className="p-4 bg-white shadow rounded-lg">
+        <div className="p-4 bg-white shadow-md rounded-lg">
             <div className="flex justify-between items-center text-gray-600 text-sm font-medium">
                 {title} <i className="fas fa-info-circle"></i>
             </div>

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Alert, Col, Row, Spinner } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import { API_URL } from "../utils/config";
+import CustomNavbar from './CustomNavbar';
 
 
 function MLMForm() {
@@ -18,7 +19,7 @@ function MLMForm() {
   const [formError, setFormError] = useState('');
 
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
 
 
   useEffect(() => {
@@ -104,103 +105,120 @@ function MLMForm() {
   };
 
   return (
-    <Form className="m-4 p-4" onSubmit={handleSubmit}>
-      {formError && <Alert variant="danger">{formError}</Alert>}
-
-      <Row className="mb-3">
-        <Form.Group as={Col} md="6" controlId="firstName">
-          <Form.Label className={errors.firstName ? 'text-danger' : ''}>First Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="First"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            isInvalid={errors.firstName}
-          />
-          <Form.Control.Feedback type="invalid">First name is required</Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group as={Col} md="6" controlId="lastName">
-          <Form.Label className={errors.lastName ? 'text-danger' : ''}>Last Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Last"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            isInvalid={errors.lastName}
-          />
-          <Form.Control.Feedback type="invalid">Last name is required</Form.Control.Feedback>
-        </Form.Group>
-      </Row>
-
-      <Form.Group className="mb-3" controlId="email">
-        <Form.Label className={errors.email ? 'text-danger' : ''}>Email Address</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          isInvalid={errors.email}
-        />
-        <Form.Control.Feedback type="invalid">Email address is required</Form.Control.Feedback>
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="password">
-        <Form.Label className={errors.password ? 'text-danger' : ''}>Password</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          isInvalid={errors.password}
-        />
-        <Form.Control.Feedback type="invalid">Password is required</Form.Control.Feedback>
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="phoneNo">
-        <Form.Label className={errors.phoneNo ? 'text-danger' : ''}>Phone Number</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Phone No."
-          value={phoneNo}
-          onChange={(e) => setPhoneNo(e.target.value)}
-          isInvalid={errors.phoneNo}
-        />
-        <Form.Control.Feedback type="invalid">Phone number is required</Form.Control.Feedback>
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="referalCode">
-        <Form.Label className="text-danger">Referral Code</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Referral Code"
-          value={referralCode}
-          onChange={(e) => setReferralCode(e.target.value)}
-          isInvalid={errors.referralCode}
-        />
-        <Form.Control.Feedback type="invalid">Referral code is required</Form.Control.Feedback>
-      </Form.Group>
-      <Button
-        type="submit"
-        className="mt-2 w-100"
-        variant="primary"
-        disabled={loading} // Disable button when loading
-      >
-        {loading ? (
-          <Spinner
-            as="span"
-            animation="border"
-            size="sm"
-            role="status"
-            aria-hidden="true"
-            className="mr-2"
-          />
-        ) : null}
-        Submit
-      </Button>
-      <div className="text-center mt-3">
-        <a href="/login" className="text-decoration-none cursor-pointer hover:font-semibold transition-all">Already Registered? Login</a>
+    <div>
+      <div>
+        <CustomNavbar />
       </div>
-    </Form>
+      <div className="flex justify-center items-center mt-[1%]">
+        <Form className="bg-white p-6 rounded-lg w-96" onSubmit={handleSubmit}>
+          <h2 className="text-center text-xl font-semibold mb-4">Sign up</h2>
+
+          {formError && <Alert variant="danger">{formError}</Alert>}
+          <Row>
+            <Col>
+              <Form.Group controlId="firstName" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  isInvalid={errors.firstName}
+                  className="rounded-full bg-gray-100 border-transparent focus:border-blue-500 focus:bg-white"
+                />
+                <Form.Control.Feedback type="invalid">First name is required</Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="lastName" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  isInvalid={errors.lastName}
+                  className="rounded-full bg-gray-100 border-transparent focus:border-blue-500 focus:bg-white"
+                />
+                <Form.Control.Feedback type="invalid">Last name is required</Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+          </Row>
+
+
+          <Form.Group controlId="email" className="mb-3">
+            <Form.Control
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              isInvalid={errors.email}
+              className="rounded-full bg-gray-100 border-transparent focus:border-blue-500 focus:bg-white"
+            />
+            <Form.Control.Feedback type="invalid">Email address is required</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group controlId="phoneNo" className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Phone Number"
+              value={phoneNo}
+              onChange={(e) => setPhoneNo(e.target.value)}
+              isInvalid={errors.phoneNo}
+              className="rounded-full bg-gray-100 border-transparent focus:border-blue-500 focus:bg-white"
+            />
+            <Form.Control.Feedback type="invalid">Phone number is required</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group controlId="password" className="mb-3 relative">
+            <Form.Control
+              type="password"
+              placeholder="Your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              isInvalid={errors.password}
+              className="rounded-full bg-gray-100 border-transparent focus:border-blue-500 focus:bg-white"
+            />
+            <Form.Control.Feedback type="invalid">Password is required</Form.Control.Feedback>
+            {/* Add icon inside the input */}
+            {/* <span className="absolute right-3 top-3 text-gray-500 cursor-pointer">👁️</span> */}
+          </Form.Group>
+
+          <Form.Group controlId="referralCode" className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Referral Code"
+              value={referralCode}
+              onChange={(e) => setReferralCode(e.target.value)}
+              isInvalid={errors.referralCode}
+              className="rounded-full bg-gray-100 border-transparent focus:border-blue-500 focus:bg-white"
+            />
+            <Form.Control.Feedback type="invalid">Referral code is required</Form.Control.Feedback>
+          </Form.Group>
+
+          <Button
+            type="submit"
+            className="w-full py-2 mt-3 rounded-full bg-blue-900 text-white hover:bg-blue-800 transition-all"
+            variant="primary"
+            disabled={loading}
+          >
+            {loading ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                className="mr-2"
+              />
+            ) : 'Sign up'}
+          </Button>
+
+          <div className="text-center mt-4 text-sm">
+            Already have an account?{' '}
+            <a href="/login" className="text-blue-500 hover:underline">Sign in</a>
+          </div>
+        </Form>
+      </div>
+    </div>
   );
 }
 

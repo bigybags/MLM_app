@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { FaBars, FaShoppingCart, FaUserCircle, FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
+import { FaBars, FaShoppingCart, FaUserCircle, FaMapMarkerAlt, FaSearch, FaShoppingBasket } from 'react-icons/fa';
 import { Button, ListGroup, Image } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -137,7 +137,7 @@ const TopNavbar = ({ toggleSidebar, handleShowCart }) => {
       <div className="flex items-center">
         {/* Cart button */}
         <div className="relative" onClick={handleShowCart}>
-          <FaShoppingCart size="1.5em" className="mx-4 cursor-pointer" />
+          <FaShoppingBasket size="1.5em" className="mx-4 cursor-pointer" />
           {cartItems.length > 0 && (
             <span className="absolute -top-2 -right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
               {cartItems.length}
@@ -149,7 +149,7 @@ const TopNavbar = ({ toggleSidebar, handleShowCart }) => {
         <FaUserCircle size="1.5em" className="mx-4 cursor-pointer" />
 
         {/* Logout Button */}
-        <Button variant="outline-danger" className="ml-4" onClick={handleLogout}>
+        <Button variant="outline-danger" size='10px' className="ml-4 rounded-3xl" onClick={handleLogout}>
           Logout
         </Button>
       </div>

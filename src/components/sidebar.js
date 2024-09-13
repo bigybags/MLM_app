@@ -18,20 +18,20 @@ const Sidebar = ({ isOpen, toggleSidebar, setOpen}) => {
         }`}
       >
         {/* Sidebar header with close button */}
-        <div className="flex justify-between items-center p-4 bg-blue-100">
-        <img src="//bigybags.com/cdn/shop/files/Bigy_Bags-logo_300x300.png?v=1649403703" alt="Biggy Bags" className="h-14 w-16 origin-center" />
+        <div className="flex justify-between items-center p-4 ">
+        <img src="//bigybags.com/cdn/shop/files/Bigy_Bags-logo_300x300.png?v=1649403703" alt="Biggy Bags" className="h-20 w-20 origin-center" />
           {/* <span className="text-lg font-bold">Biggy Bags</span> */}
-          <FaTimes size="1em" className="cursor-pointer" onClick={toggleSidebar} />
+          {/* <FaTimes size="1em" className="cursor-pointer" onClick={toggleSidebar} /> */}
         </div>
 
         {/* Sidebar Menu */}
-        <div className="p-4 space-y-3"> {/* Add vertical spacing between items */}
+        <div className="mt-[1%]"> {/* Add vertical spacing between items */}
           <NavLink
             to="/dashboard/dashboard"
             className={({ isActive }) =>
               isActive
-                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
-                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+                ? "block py-3 px-4 bg-[#D0FAFF] text-black font-semibold"
+                : "block py-3 px-4 text-gray-600 border-b-[1px] border-b-[#D8D8D8] hover:bg-[#001B36] hover:text-[#00E5FF] transition-colors ease-out"
             }
           >
             Dashboard
@@ -40,8 +40,8 @@ const Sidebar = ({ isOpen, toggleSidebar, setOpen}) => {
             to="/dashboard/network"
             className={({ isActive }) =>
               isActive
-                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
-                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+                ? "block py-3 px-4 bg-[#D0FAFF] text-black font-semibold"
+                : "block py-3 px-4 text-gray-600 border-b-[1px] border-b-[#D8D8D8] hover:bg-[#001B36] hover:text-[#00E5FF] transition-colors ease-out"
             }
           >
             Network
@@ -50,8 +50,8 @@ const Sidebar = ({ isOpen, toggleSidebar, setOpen}) => {
             to="/dashboard/products"
             className={({ isActive }) =>
               isActive
-                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
-                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+                ? "block py-3 px-4 bg-[#D0FAFF] text-black font-semibold"
+                : "block py-3 px-4 text-gray-600 border-b-[1px] border-b-[#D8D8D8] hover:bg-[#001B36] hover:text-[#00E5FF] transition-colors ease-out"
             }
           >
             Products
@@ -60,8 +60,8 @@ const Sidebar = ({ isOpen, toggleSidebar, setOpen}) => {
             to="/dashboard/ewallet"
             className={({ isActive }) =>
               isActive
-                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
-                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+                ? "block py-3 px-4 bg-[#D0FAFF] text-black font-semibold"
+                : "block py-3 px-4 text-gray-600 border-b-[1px] border-b-[#D8D8D8] hover:bg-[#001B36] hover:text-[#00E5FF] transition-colors ease-out"
             }
           >
             Transaction History
@@ -70,18 +70,18 @@ const Sidebar = ({ isOpen, toggleSidebar, setOpen}) => {
             to="/dashboard/payout"
             className={({ isActive }) =>
               isActive
-                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
-                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+                ? "block py-3 px-4 bg-[#D0FAFF] text-black font-semibold"
+                : "block py-3 px-4 text-gray-600 border-b-[1px] border-b-[#D8D8D8] hover:bg-[#001B36] hover:text-[#00E5FF] transition-colors ease-out"
             }
           >
-            Redeem Points
+            Cash Withdraw
           </NavLink>
           <NavLink
             to="/dashboard/profile"
             className={({ isActive }) =>
               isActive
-                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
-                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+                ? "block py-3 px-4 bg-[#D0FAFF] text-black font-semibold"
+                : "block py-3 px-4 text-gray-600 border-b-[1px] border-b-[#D8D8D8] hover:bg-[#001B36] hover:text-[#00E5FF] transition-colors ease-out"
             }
           >
             Profile
@@ -90,8 +90,8 @@ const Sidebar = ({ isOpen, toggleSidebar, setOpen}) => {
             to="/dashboard/statements"
             className={({ isActive }) =>
               isActive
-                ? "block py-3 px-4 bg-blue-100 text-blue-700 font-semibold rounded-lg"
-                : "block py-3 px-4 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg"
+                ? "block py-3 px-4 bg-[#D0FAFF] text-black font-semibold"
+                : "block py-3 px-4 text-gray-600 border-b-[1px] border-b-[#D8D8D8] hover:bg-[#001B36] hover:text-[#00E5FF] transition-colors ease-out"
             }
           >
             Statements

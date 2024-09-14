@@ -80,11 +80,9 @@ function Ewallet_Dashboard() {
     return (
         <Container fluid >
             <div className="p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
                     <InfoCard title="Credited" value={`£ ${data.credit.toFixed(2)}`} color="text-purple-600" />
                     <InfoCard title="Debited" value={`£ ${Math.abs(data.debit).toFixed(2)}`} color="text-red-600" />
-                    <InfoCard title="Remaining Points" value={data.remainingPoints} color="text-emerald-300" />
-                    <InfoCard title="Commission Earned" value={`£ ${data.commissionEarned.toFixed(2)}`} color="text-blue-600" />
                 </div>
                 <div className="bg-white mt-4 p-4 shadow">
                     <Tab.Container defaultActiveKey="transaction">

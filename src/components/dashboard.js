@@ -145,9 +145,9 @@ function Dashboard() {
             <Spinner animation="border" />
           ) : (
             <>
-              <InfoCard title="Balance" value="£ 0" color="text-purple-600" />
+              <InfoCard title="Current Balance" value="£ 0" color="text-purple-600" />
               <InfoCard title="Income" value="£ 0" color="text-green-600" />
-              <InfoCard title="Comission" value={`${currentStatement.commission_percentage ?? 0}%`} color="text-blue-600" />
+              <InfoCard title="Current Comission" value={`${currentStatement.commission_percentage ?? 0}%`} color="text-blue-600" />
               <InfoCard title="Total Paid" value="£ 0" color="text-blue-600" />
               <InfoCard title="Pending Amount" value="£ 0" color="text-blue-600" />
               <InfoCard

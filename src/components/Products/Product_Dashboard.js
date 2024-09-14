@@ -7,6 +7,8 @@ import banner_image2 from "../../assets/product/banner_2.png";
 import banner_image3 from "../../assets/product/banner_3.png";
 import "../../styles/scroll.css";
 import { API_URL } from "../../utils/config";
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Import icons
+
 
 const ProductDashboard = () => {
   const [products, setProducts] = useState([]);
@@ -20,6 +22,11 @@ const ProductDashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { addToCart } = useContext(CartContext);
   const categoryRef = useRef(null);
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
+  const productContainerRef = useRef(null);
 
   // Fetch Products
   const fetchProducts = async () => {
@@ -102,22 +109,82 @@ const ProductDashboard = () => {
     setSelectedCategory(categoryId);
   };
 
-  const scrollCategory = (direction) => {
-    const container = categoryRef.current;
-    const scrollAmount = 150; // Adjust this value as needed
+  const scrollProducts = (direction, subCategoryId) => {
+    const container = document.getElementById(`product-container-${subCategoryId}`);
+    console.log(container);
+    const scrollAmount = 260; // Adjust this value as needed
 
-    if (direction === 'left') {
-      container.scrollBy({
-        left: -scrollAmount,
-        behavior: 'smooth'
-      });
-    } else if (direction === 'right') {
-      container.scrollBy({
-        left: scrollAmount,
-        behavior: 'smooth'
-      });
+    if (container) {
+      if (direction === 'left') {
+        container.scrollBy({
+          left: -scrollAmount,
+          behavior: 'smooth',
+        });
+      } else if (direction === 'right') {
+        container.scrollBy({
+          left: scrollAmount,
+          behavior: 'smooth',
+        });
+      }
     }
   };
+
+
+  const handleScroll = (direction) => {
+    const container = productContainerRef.current;
+    const scrollAmount = 150; // Adjust this value as needed
+
+    if (container) {
+      if (direction === 'left') {
+        container.scrollBy({
+          left: -scrollAmount,
+          behavior: 'smooth',
+        });
+      } else if (direction === 'right') {
+        container.scrollBy({
+          left: scrollAmount,
+          behavior: 'smooth',
+        });
+      }
+    }
+  };
+  // To disable arrow buttons at the end or start
+  useEffect(() => {
+    const checkScroll = () => {
+      if (productContainerRef.current) {
+        const container = productContainerRef.current;
+        setIsAtStart(container.scrollLeft <= 0);
+        setIsAtEnd(container.scrollLeft >= container.scrollWidth - container.clientWidth);
+      }
+    };
+
+    checkScroll(); // Check scroll when component mounts
+    window.addEventListener('resize', checkScroll); // Update on window resize
+
+    return () => window.removeEventListener('resize', checkScroll); // Cleanup listener
+  }, [filteredProducts]); // Run this effect when products change
+
+  // Event listener to update scroll state
+  const handleScrollEvent = () => {
+    const container = productContainerRef.current;
+    if (container) {
+      setScrollPosition(container.scrollLeft);
+      setIsAtStart(container.scrollLeft <= 0);
+      setIsAtEnd(container.scrollLeft >= container.scrollWidth - container.clientWidth);
+    }
+  };
+
+  useEffect(() => {
+    const container = productContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScrollEvent);
+    }
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScrollEvent);
+      }
+    };
+  }, []);
 
   return (
     <Container fluid>
@@ -207,8 +274,25 @@ const ProductDashboard = () => {
               {/* Subcategories and Products */}
               {subCategories.map(subCategory => (
                 <div key={subCategory.id} className="ml-[1.25%] mb-4 mt-4">
-                  <h3 className="text-[34px] font-bold mb-2">{subCategory.name}</h3>
-
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-[34px] font-bold mb-2">{subCategory.name}</h3>
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => scrollProducts('left', subCategory.id)}
+                        className="p-2 bg-gray-300 rounded-full hover:bg-gray-400"
+                        disabled={isAtStart}
+                      >
+                        <FaChevronLeft />
+                      </button>
+                      <button
+                        onClick={() => scrollProducts('right', subCategory.id)}
+                        className="p-2 bg-gray-300 rounded-full hover:bg-gray-400 ml-2"
+                        disabled={isAtEnd}
+                      >
+                        <FaChevronRight />
+                      </button>
+                    </div>
+                  </div>
                   {/* Display No Products Found Message */}
                   {filteredProducts.filter(product => product.sub_category === subCategory.id).length === 0 ? (
                     <Alert variant="info" className="text-center">
@@ -216,8 +300,8 @@ const ProductDashboard = () => {
                     </Alert>
                   ) : (
                     <div className="relative">
-                      <div className="flex overflow-x-auto custom-scrollbar py-2">
-                        <div className="flex gap-[2%]">
+                      <div  id={`product-container-${subCategory.id}`} className="flex overflow-x-auto custom-scrollbar py-2">
+                        <div ref={productContainerRef} className="flex gap-[2%]">
                           {filteredProducts
                             .filter(product => product.sub_category === subCategory.id)
                             .map((product) => (

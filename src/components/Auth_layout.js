@@ -1,10 +1,11 @@
 // src/components/AuthLayout.js
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import useAuth from './Auth/useAuth';
+import { useAuth2 } from './Auth/useAuth';
 
 
 const AuthLayout = () => {
+  useAuth2()
 
   return (
     <div className="auth-container">

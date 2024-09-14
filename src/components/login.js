@@ -111,7 +111,7 @@ function LoginForm() {
           </Form>
           <div className="text-center mt-[10%] justify-center border-t-[1px] border-t-black pt-[10%]">
             <p className="text-decoration-none cursor-pointer">Do not have account?</p>
-            <Button className='bg-white text-[#1E1E1E] rounded-3xl w-full border border-black' onClick={()=>{navigate("/")}}>Sign up</Button>
+            <Button className='bg-white text-[#1E1E1E] rounded-3xl w-full border border-black hover:text-sky-500' onClick={()=>{navigate("/")}}>Sign up</Button>
           </div>
         </Col>
       </Row>

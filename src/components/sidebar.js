@@ -57,6 +57,16 @@ const Sidebar = ({ isOpen, toggleSidebar, setOpen}) => {
             Products
           </NavLink>
           <NavLink
+            to="/dashboard/orders"
+            className={({ isActive }) =>
+              isActive
+                ? "block py-3 px-4 bg-[#D0FAFF] text-black font-semibold"
+                : "block py-3 px-4 text-gray-600 border-b-[1px] border-b-[#D8D8D8] hover:bg-[#001B36] hover:text-[#00E5FF] transition-colors ease-out"
+            }
+          >
+            Orders
+          </NavLink>
+          <NavLink
             to="/dashboard/ewallet"
             className={({ isActive }) =>
               isActive

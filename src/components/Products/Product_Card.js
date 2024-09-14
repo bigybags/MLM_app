@@ -16,7 +16,7 @@ const ProductCard = ({ product, onAddToCart }) => {
       onClick={handleNavigate} // Navigate on card click
       className="shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer position-relative"
       style={{
-        width: '300px', // Make the card wider
+        width: '200px', // Make the card wider
         height: '230px', // Shorter height
         borderRadius: '10px',
         overflow: 'hidden',

@@ -31,6 +31,10 @@ const PurchasesLineGraph = () => {
                     user_purchases: sortedUserPurchases,
                     referral_purchases: formattedReferralPurchases
                 });
+                console.log({
+                    user_purchases: sortedUserPurchases,
+                    referral_purchases: formattedReferralPurchases
+                })
             } catch (error) {
                 console.error('Error fetching graph data:', error);
             } finally {
@@ -56,7 +60,7 @@ const PurchasesLineGraph = () => {
     return (
         <div>
             {/* User Purchases Graph */}
-            <div className="mb-4">
+            <div className="mb-4" style={{ position: 'relative' }}>
                 <h3>User Purchases</h3>
                 <ResponsiveContainer width="100%" height={400}>
                     <LineChart data={graphData.user_purchases}>
@@ -79,10 +83,22 @@ const PurchasesLineGraph = () => {
                         <Line type="monotone" dataKey="amount" stroke="#8884d8" dot={true} />
                     </LineChart>
                 </ResponsiveContainer>
+                {graphData.user_purchases.length === 0 && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        color: 'red',
+                        fontWeight: 'bold'
+                    }}>
+                        No user purchases done yet.
+                    </div>
+                )}
             </div>
 
             {/* Referral Purchases Graph */}
-            <div>
+            <div style={{ position: 'relative' }}>
                 <h3>Referral Purchases</h3>
                 <ResponsiveContainer width="100%" height={400}>
                     <LineChart data={graphData.referral_purchases}>
@@ -105,6 +121,18 @@ const PurchasesLineGraph = () => {
                         <Line type="monotone" dataKey="amount" stroke="#82ca9d" dot={true} />
                     </LineChart>
                 </ResponsiveContainer>
+                {graphData.referral_purchases.length === 0 && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        color: 'red',
+                        fontWeight: 'bold'
+                    }}>
+                        No referral purchases done yet.
+                    </div>
+                )}
             </div>
         </div>
     );

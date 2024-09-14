@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { BsChevronDown, BsChevronUp } from 'react-icons/bs';
 import { API_URL } from "../../utils/config";
+import OrderPlacedModal from './success_modal';
 
 
 
@@ -33,19 +34,22 @@ const Checkout = () => {
     const [postalCodeValid, setPostalCodeValid] = useState(null);
     const [last_order, setlastOrder] = useState(null);
 
+    const [showModal, setShowModal] = useState(false);
+
+
     const [open, setOpen] = useState(false);
     const [tip, setTip] = useState(0);
-    
+
     // Assuming cartItems have the structure { name, quantity, price, image }
     const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     const bagFee = 1.00;
     const serviceFee = 2.00;
     const deliveryFee = 3.00;
-  
+
     const calculateTotal = () => {
-      return subtotal + bagFee + serviceFee + deliveryFee + tip;
+        return subtotal + bagFee + serviceFee + deliveryFee + tip;
     };
-  
+
     const tipOptions = [0, 0.10, 0.15, 0.20, 0.25];
 
     const navigate = useNavigate();
@@ -242,7 +246,7 @@ const Checkout = () => {
 
             console.log("order data", orderData);
 
-            const response = await fetch(`${API_URL}/order`, {
+            const response = await fetch(`${API_URL}/order/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -254,11 +258,17 @@ const Checkout = () => {
             });
 
             if (response.ok) {
-                setToastMessage('Payment completed successfully!');
-                setToastVariant('success');
-                setShowToast(true);
-                clearCart();
-                navigate('/dashboard/orders');
+                // setToastMessage('Payment completed successfully!');
+                // setToastVariant('success');
+                // setShowToast(true);
+                setShowModal(true); // Show modal on success
+                setTimeout(() => {
+                    clearCart();
+                    setShowModal(false);
+                    navigate('/dashboard/orders');
+                }, 1000); // S
+                
+                // navigate('/dashboard/orders');
             } else {
                 const errorData = await response.json();
                 setToastMessage(`Failed to process order: ${errorData.detail || 'Please try again.'}`);
@@ -363,16 +373,16 @@ const Checkout = () => {
                                                 onChange={handleCityChange}
                                             />
                                             {/* <Form.Control
-                                    as="select"
-                                    value={city}
-                                    onChange={handleCityChange}
-                                    disabled={!selectedState}
-                                >
-                                    <option>Select your city</option>
-                                    {cities.map((city, index) => (
-                                        <option key={index} value={city}>{city}</option>
-                                    ))}
-                                </Form.Control> */}
+                                                as="select"
+                                                value={city}
+                                                onChange={handleCityChange}
+                                                disabled={!selectedState}
+                                            >
+                                                <option>Select your city</option>
+                                                {cities.map((city, index) => (
+                                                    <option key={index} value={city}>{city}</option>
+                                                ))}
+                                            </Form.Control> */}
                                         </Form.Group>
                                     </Col>
                                 </Row>
@@ -414,31 +424,31 @@ const Checkout = () => {
                             <Card.Title>Payment</Card.Title>
                             <PayPalScriptProvider options={{ "client-id": "AcfZegwsJHjZkBYFKkSAsNWTRDS3xF_7jjEr-bjMTxROkAj6Nlg1HVXyzIWIFb7Iujtex-uSMM_yTA1H", "currency": "GBP" }}>
                                 <div className="relative z-0">
-                                <PayPalButtons
-                                    style={{ layout: "vertical" }}
-                                    createOrder={(data, actions) => {
-                                        return actions.order.create({
-                                            purchase_units: [{
-                                                amount: {
-                                                    value: totalAmount.toFixed(2),
-                                                    currency_code: "GBP",
-                                                },
-                                            }],
-                                        });
-                                    }}
-                                    onApprove={async (data, actions) => {
-                                        const details = await actions.order.capture();
-                                        handlePlaceOrder(details);
-                                    }}
-                                    onError={(err) => {
-                                        console.error('PayPal Checkout Error:', err);
-                                        setToastMessage('An error occurred with PayPal checkout.');
-                                        setToastVariant('danger');
-                                        setShowToast(true);
-                                        setisLoading(false);
-                                    }}
-                                    disabled={!validateForm() || loading}  // Disable PayPal button if form is not valid
-                                />
+                                    <PayPalButtons
+                                        style={{ layout: "vertical" }}
+                                        createOrder={(data, actions) => {
+                                            return actions.order.create({
+                                                purchase_units: [{
+                                                    amount: {
+                                                        value: totalAmount.toFixed(2),
+                                                        currency_code: "GBP",
+                                                    },
+                                                }],
+                                            });
+                                        }}
+                                        onApprove={async (data, actions) => {
+                                            const details = await actions.order.capture();
+                                            handlePlaceOrder(details);
+                                        }}
+                                        onError={(err) => {
+                                            console.error('PayPal Checkout Error:', err);
+                                            setToastMessage('An error occurred with PayPal checkout.');
+                                            setToastVariant('danger');
+                                            setShowToast(true);
+                                            setisLoading(false);
+                                        }}
+                                        disabled={!validateForm() || loading}  // Disable PayPal button if form is not valid
+                                    />
                                 </div>
                             </PayPalScriptProvider>
                         </Card.Body>
@@ -446,100 +456,100 @@ const Checkout = () => {
                 </Col>
 
                 <Col md={4}>
-      {/* Basket Summary Section */}
-      <Card className="mb-4">
-        <Card.Header
-          className="d-flex justify-content-between align-items-center"
-          onClick={() => setOpen(!open)}
-          aria-controls="basket-summary"
-          aria-expanded={open}
-          style={{ cursor: 'pointer' }}
-        >
-          <span>Basket Summary ({cartItems.length} item{cartItems.length > 1 ? 's' : ''})</span>
-          {open ? <BsChevronUp /> : <BsChevronDown />}
-        </Card.Header>
-        <Collapse in={open}>
-          <div id="basket-summary">
-            <Card.Body>
-              <Table borderless>
-                <tbody>
-                  {cartItems.map((item, index) => (
-                    <tr key={index}>
-                      <td><img src={"https://bigybags.com/cdn/shop/products/WebImages11_360x.jpg?v=1650099297"} alt={item.name} style={{ width: '50px' }} /></td>
-                      <td>{item.name}</td>
-                      <td>{item.quantity} x £{item.price}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Card.Body>
-          </div>
-        </Collapse>
-      </Card>
+                    {/* Basket Summary Section */}
+                    <Card className="mb-4">
+                        <Card.Header
+                            className="d-flex justify-content-between align-items-center"
+                            onClick={() => setOpen(!open)}
+                            aria-controls="basket-summary"
+                            aria-expanded={open}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <span>Basket Summary ({cartItems.length} item{cartItems.length > 1 ? 's' : ''})</span>
+                            {open ? <BsChevronUp /> : <BsChevronDown />}
+                        </Card.Header>
+                        <Collapse in={open}>
+                            <div id="basket-summary">
+                                <Card.Body>
+                                    <Table borderless>
+                                        <tbody>
+                                            {cartItems.map((item, index) => (
+                                                <tr key={index}>
+                                                    <td><img src={item.image_url} alt={item.name} style={{ width: '50px' }} /></td>
+                                                    <td>{item.name}</td>
+                                                    <td>{item.quantity} x £{item.price}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                </Card.Body>
+                            </div>
+                        </Collapse>
+                    </Card>
 
-      {/* Promotion Section */}
-      <Card className="mb-4">
-        <Card.Body>
-          <Card.Title>Promotion</Card.Title>
-          <Form.Group className="mb-3">
-            <Form.Label>Add Promo Code</Form.Label>
-            <Form.Control type="text" placeholder="Enter promo code" />
-          </Form.Group>
-        </Card.Body>
-      </Card>
+                    {/* Promotion Section */}
+                    <Card className="mb-4">
+                        <Card.Body>
+                            <Card.Title>Promotion</Card.Title>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Add Promo Code</Form.Label>
+                                <Form.Control type="text" placeholder="Enter promo code" />
+                            </Form.Group>
+                        </Card.Body>
+                    </Card>
 
-      {/* Order Total Section */}
-      <Card>
-        <Card.Body>
-          <Card.Title>Order Total</Card.Title>
-          <Table borderless>
-            <tbody>
-              <tr>
-                <td>Subtotal</td>
-                <td>£{subtotal.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td>Bag Fee</td>
-                <td>£{bagFee.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td>Service Fee</td>
-                <td>£{serviceFee.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td>Delivery Fee</td>
-                <td>£{deliveryFee.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td>Add a tip</td>
-                <td>
-                  {tipOptions.map((tipOption, index) => (
-                    <Button
-                      key={index}
-                      variant={tipOption === tip ? "secondary" : "outline-secondary"}
-                      onClick={() => setTip(tipOption * subtotal)}
-                      className="me-2 mr-2 text-xs mb-2"
-                    >
-                      {tipOption === 0 ? "Not now" : `${(tipOption * 100).toFixed(0)}%`}
-                    </Button>
-                  ))}
-                </td>
-              </tr>
-            </tbody>
-          </Table>
+                    {/* Order Total Section */}
+                    <Card>
+                        <Card.Body>
+                            <Card.Title>Order Total</Card.Title>
+                            <Table borderless>
+                                <tbody>
+                                    <tr>
+                                        <td>Subtotal</td>
+                                        <td>£{subtotal.toFixed(2)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bag Fee</td>
+                                        <td>£{bagFee.toFixed(2)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Service Fee</td>
+                                        <td>£{serviceFee.toFixed(2)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delivery Fee</td>
+                                        <td>£{deliveryFee.toFixed(2)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Add a tip</td>
+                                        <td>
+                                            {tipOptions.map((tipOption, index) => (
+                                                <Button
+                                                    key={index}
+                                                    variant={tipOption === tip ? "secondary" : "outline-secondary"}
+                                                    onClick={() => setTip(tipOption * subtotal)}
+                                                    className="me-2 mr-2 text-xs mb-2"
+                                                >
+                                                    {tipOption === 0 ? "Not now" : `${(tipOption * 100).toFixed(0)}%`}
+                                                </Button>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
 
-          <hr />
-          <Table borderless>
-            <tbody>
-              <tr>
-                <td><strong>Total</strong></td>
-                <td><strong>${calculateTotal().toFixed(2)}</strong></td>
-              </tr>
-            </tbody>
-          </Table>
-        </Card.Body>
-      </Card>
-    </Col>
+                            <hr />
+                            <Table borderless>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Total</strong></td>
+                                        <td><strong>${calculateTotal().toFixed(2)}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </Card.Body>
+                    </Card>
+                </Col>
 
             </Row>
 
@@ -554,6 +564,9 @@ const Checkout = () => {
                     <Toast.Body>{toastMessage}</Toast.Body>
                 </Toast>
             </ToastContainer>
+            <OrderPlacedModal show={showModal} handleClose={() => setShowModal(false)} />
+
+
         </Container>
     );
 };

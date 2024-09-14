@@ -146,7 +146,7 @@ const TopNavbar = ({ toggleSidebar, handleShowCart }) => {
         </div>
 
         {/* User Profile */}
-        <FaUserCircle size="1.5em" className="mx-4 cursor-pointer" />
+        <FaUserCircle size="1.5em" className="mx-4 cursor-pointer" onClick={()=>(navigate("/dashboard/profile"))} />
 
         {/* Logout Button */}
         <Button variant="outline-danger" size='10px' className="ml-4 rounded-3xl" onClick={handleLogout}>

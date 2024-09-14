@@ -4,15 +4,13 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from "../utils/config";
 
-
-
 const PinConfirmation = () => {
     const [pin, setPin] = useState(new Array(4).fill(''));
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastVariant, setToastVariant] = useState('success');
     const [loading, setLoading] = useState(false); // Loading state
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const inputRefs = useRef([]);
     const email = Cookies.get('email'); // Assuming the email is stored in cookies
@@ -40,7 +38,6 @@ const PinConfirmation = () => {
         Cookies.remove('phoneNo');
         Cookies.remove('referralCode');
     };
-
 
     useEffect(() => {
         inputRefs.current[0].focus();
@@ -70,7 +67,7 @@ const PinConfirmation = () => {
             password: password,
             phone_no: phoneNo,
             referral_code: referralCode
-        }
+        };
         try {
             const response = await fetch(`${API_URL}/register/`, {
                 method: 'POST',
@@ -82,27 +79,26 @@ const PinConfirmation = () => {
             if (response.ok) {
                 console.log('User added successfully');
                 removeAllCookies(); // Remove all cookies on success
-                navigate("/login");
+                setToastMessage('Email Verified');
+                setToastVariant('success');
+                setShowToast(true);
+                setTimeout(() => {
+                    navigate("/login");
+                }, 2000); // Redirect after 2 seconds
             } else {
                 const result = await response.json();
                 if (result.error) {
-                    setToastMessage('An error occured in Registration. Please try again.');
+                    setToastMessage('An error occurred in Registration. Please try again.');
                     setToastVariant('danger');
                 }
                 console.error('Error adding user');
             }
-
-        }
-        catch (error) {
-            setToastMessage('An error occured in Registration. Please try again.');
+        } catch (error) {
+            setToastMessage('An error occurred in Registration. Please try again.');
             setToastVariant('danger');
-        }
-        finally {
+        } finally {
             setLoading(false); // Stop loading
-            setShowToast(true);
         }
-
-
     };
 
     const handleSubmit = async (event) => {
@@ -133,19 +129,20 @@ const PinConfirmation = () => {
                 setToastMessage('OTP verified successfully!');
                 setToastVariant('success');
                 setShowToast(true);
-                register_user()
+                register_user();
             } else {
                 const errorData = await response.json();
                 setToastMessage(`Failed to verify OTP: ${errorData.detail || 'Please try again.'}`);
                 setToastVariant('danger');
+                setShowToast(true);
             }
         } catch (error) {
             console.error('Error verifying OTP:', error);
             setToastMessage('An error occurred. Please try again.');
             setToastVariant('danger');
+            setShowToast(true);
         } finally {
             setLoading(false); // Stop loading
-            setShowToast(true);
         }
     };
 
@@ -197,7 +194,7 @@ const PinConfirmation = () => {
                         </div>
                     </Form>
                     <div className="text-center mt-3">
-                        <div onClick={() => navigate("/")} className="hover:font-semibold hover:underline cursor-pointer transition-all">Did'nt Recieve OTP? Go Back</div>
+                        <div onClick={() => navigate("/")} className="hover:font-semibold hover:underline cursor-pointer transition-all">Didn't Receive OTP? Go Back</div>
                     </div>
                 </Col>
             </Row>

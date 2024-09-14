@@ -1,6 +1,6 @@
 .custom-scrollbar::-webkit-scrollbar {
-    width: 4px; /* Smaller width */
-    height: 4px; /* Smaller height for horizontal scrollbar */
+    width: 0px; /* Smaller width */
+    height: 0px; /* Smaller height for horizontal scrollbar */
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb {

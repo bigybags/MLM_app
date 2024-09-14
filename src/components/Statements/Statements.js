@@ -12,8 +12,9 @@ const Statements = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [filteredStatements, setFilteredStatements] = useState([]);
-    const [selectedMonth, setSelectedMonth] = useState('');
+    const [selectedMonth, setSelectedMonth] = useState(moment().format('YYYY-MM'));
     const [uniqueMonths, setUniqueMonths] = useState([]);
+    const [referral_count, serReferralcount] = useState(0);
 
     useEffect(() => {
         const fetchStatements = async () => {
@@ -30,7 +31,7 @@ const Statements = () => {
                 setCurrentMonthStatement(data.current_month_statement);
                 setStatements(data.statements);
                 setFilteredStatements(data.statements);
-
+                serReferralcount(data.referral_counts)
                 // Extract unique months
                 const months = [...new Set(data.statements.map(statement =>
                     moment(statement.created_at).format('YYYY-MM')
@@ -60,6 +61,8 @@ const Statements = () => {
         }
     };
 
+    
+
     return (
         <Container fluid className="p-4">
             <Row className="mt-4">
@@ -82,10 +85,11 @@ const Statements = () => {
                                             {/* Using InfoCard Component */}
                                             <InfoCard title="User Purchase" value={`£${currentMonthStatement.user_purchase ?? 0}`} color="text-purple-600" />
                                             <InfoCard title="Referral Purchase" value={`£${currentMonthStatement.referral_purchase ?? 0}`} color="text-blue-600" />
-                                            <InfoCard title="Group Purchase" value={`£${currentMonthStatement.group_purchase ?? 0}`} color="text-green-600" />
+                                            {/* <InfoCard title="Group Purchase" value={`£${currentMonthStatement.group_purchase ?? 0}`} color="text-green-600" /> */}
                                             <InfoCard title="Cumulative Purchase" value={`£${currentMonthStatement.cumulative_purchase ?? 0}`} color="text-red-600" />
                                             <InfoCard title="Cumulative Points" value={currentMonthStatement.cumulative_points ?? 0} color="text-orange-600" />
                                             <InfoCard title="Commission Percentage" value={`${currentMonthStatement.commission_percentage ?? 0}%`} color="text-teal-600" />
+                                            <InfoCard title="Earned" value={`£${((currentMonthStatement.cumulative_points * parseInt(currentMonthStatement.commission_percentage, 10))/100).toFixed(2) ?? 0}`} color="text-teal-600" />
                                             {currentMonthStatement.updated_at && (
                                                 <InfoCard
                                                     title="Updated At"
@@ -93,6 +97,7 @@ const Statements = () => {
                                                     color="text-gray-600"
                                                 />
                                             )}
+                                            <InfoCard title="Referrals Joined" value={`${referral_count ?? 0}`} color="text-teal-600" />
                                         </Card.Body>
                                     </Card>
                                 )}
@@ -107,7 +112,6 @@ const Statements = () => {
                                         onChange={handleMonthFilter}
                                         className="w-25"
                                     >
-                                        <option value="">All Months</option>
                                         {uniqueMonths.map((month, index) => (
                                             <option key={index} value={month}>
                                                 {moment(month, 'YYYY-MM').format('MMMM YYYY')}

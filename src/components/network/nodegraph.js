@@ -47,7 +47,7 @@ const Node = ({ name, username, points, status, isActive }) => {
       {getStatusMedal(status)}
       <span className="node-name">{name}</span>
       <span className="node-username">{username}</span>
-      <span className="node-points">Points: {points}</span>
+      <span className="node-points">Total Spend: £{points}</span>
       <span className="node-status">Status: {status}</span>
     </div>
   );

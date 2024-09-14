@@ -16,7 +16,6 @@ const ProfileComponent = () => {
   const [showUploadModal, setShowUploadModal] = useState(false); // State for handling modal visibility
 
 
-
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -141,13 +140,17 @@ const ProfileComponent = () => {
               <p className="text-purple-500 font-semibold">Members</p>
               <p className="text-xl font-semibold">{ProfileData.referrals_count}</p>
             </div>
+            {/* <div className="text-center">
+              <p className="text-yellow-500 font-semibold">Group Purchases</p>
+              <p className="text-xl font-semibold">£{ProfileData.user_points.points}</p>
+            </div> */}
             <div className="text-center">
-              <p className="text-yellow-500 font-semibold">Points</p>
-              <p className="text-xl font-semibold">{ProfileData.user_points.points}</p>
+              <p className="text-blue-500 font-semibold">Your Referrer</p>
+              <p className="text-xl font-semibold">{ProfileData.referrer_details.first_name} {ProfileData.referrer_details.last_name}</p>
             </div>
             <div className="text-center">
-              <p className="text-green-500 font-semibold">Referral Points</p>
-              <p className="text-xl font-semibold">{ProfileData.user_points.referral_points}</p>
+              <p className="text-green-500 font-semibold">Referral Purchases</p>
+              <p className="text-xl font-semibold">£{ProfileData.user_points.referral_points}</p>
             </div>
           </div>
         </div>

@@ -3,10 +3,10 @@ import Sidebar from './sidebar';
 import TopNavbar from './navbar';
 import CartModal from './Cart/cart';
 import { Outlet } from 'react-router-dom';
-import useAuth from './Auth/useAuth';
+import { useAuth } from './Auth/useAuth';
 
 const DashboardLayout = ({ handleShowCart, showCart, handleCloseCart }) => {
-  useAuth(); // Use the authentication hook to protect routes
+  useAuth() // Use the authentication hook to protect routes
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

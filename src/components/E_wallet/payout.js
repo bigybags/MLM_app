@@ -28,13 +28,14 @@ const RedeemPoints = () => {
 
                 if (response.ok) {
                     const data = await response.json();
+                    console.log("Payout",data)
                     setBalance(data.balance);
 
                     // Show alert if balance is 0
-                    if (data.balance === 0) {
+                    if (data.balance === '0.00') {
                         setShowAlert(true);
                     }
-                } else if (response.status === 404 || balance === 0) {
+                } else if (response.status === 404 || balance === '0.00') {
                     setShowAlert(true);
                 } else {
                     setToastMessage('Failed to fetch eWallet balance.');
@@ -52,30 +53,30 @@ const RedeemPoints = () => {
     }, [userId, balance]);
 
     // Fetch user points
-    useEffect(() => {
-        const fetchUserPoints = async () => {
-            try {
-                const response = await fetch(`${API_URL}/user_points/?user_id=${userId}`, {
-                    method: 'GET',
-                });
+    // useEffect(() => {
+    //     const fetchUserPoints = async () => {
+    //         try {
+    //             const response = await fetch(`${API_URL}/user_points/?user_id=${userId}`, {
+    //                 method: 'GET',
+    //             });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    setPoints(data.points);
-                } else {
-                    setToastMessage('Failed to fetch user points.');
-                    setToastVariant('danger');
-                    setShowToast(true);
-                }
-            } catch (error) {
-                setToastMessage('An error occurred while fetching points.');
-                setToastVariant('danger');
-                setShowToast(true);
-                console.log(error);
-            }
-        };
-        fetchUserPoints();
-    }, [userId]);
+    //             if (response.ok) {
+    //                 const data = await response.json();
+    //                 setPoints(data.points);
+    //             } else {
+    //                 setToastMessage('Failed to fetch user points.');
+    //                 setToastVariant('danger');
+    //                 setShowToast(true);
+    //             }
+    //         } catch (error) {
+    //             setToastMessage('An error occurred while fetching points.');
+    //             setToastVariant('danger');
+    //             setShowToast(true);
+    //             console.log(error);
+    //         }
+    //     };
+    //     fetchUserPoints();
+    // }, [userId]);
 
     // Calculate money equivalent based on points
     useEffect(() => {

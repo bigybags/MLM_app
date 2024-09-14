@@ -61,7 +61,7 @@ const Statements = () => {
         }
     };
 
-    
+
 
     return (
         <Container fluid className="p-4">
@@ -89,7 +89,17 @@ const Statements = () => {
                                             <InfoCard title="Cumulative Purchase" value={`£${currentMonthStatement.cumulative_purchase ?? 0}`} color="text-red-600" />
                                             <InfoCard title="Cumulative Points" value={currentMonthStatement.cumulative_points ?? 0} color="text-orange-600" />
                                             <InfoCard title="Commission Percentage" value={`${currentMonthStatement.commission_percentage ?? 0}%`} color="text-teal-600" />
-                                            <InfoCard title="Earned" value={`£${((currentMonthStatement.cumulative_points * parseInt(currentMonthStatement.commission_percentage, 10))/100).toFixed(2) ?? 0}`} color="text-teal-600" />
+                                            <InfoCard title="Earned" value={`£${(() => {
+                                                try {
+                                                    const cumulativePoints = parseFloat(currentMonthStatement.cumulative_points) || 0;
+                                                    const commissionPercentage = parseFloat(currentMonthStatement.commission_percentage) || 0;
+                                                    const amount = (cumulativePoints * commissionPercentage) / 100;
+                                                    return amount.toFixed(2);
+                                                } catch (error) {
+                                                    console.error('Error calculating earned amount:', error);
+                                                    return '0.00';
+                                                }
+                                            })()}`} color="text-teal-600" />
                                             {currentMonthStatement.updated_at && (
                                                 <InfoCard
                                                     title="Updated At"
